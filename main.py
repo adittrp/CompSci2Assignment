@@ -9,7 +9,7 @@ window.blit(chessboard, (0, 0))
 
 chessboard_squares = []
 chessboard_letters = ["a", "b", "c", "d", "e", "f", "g", "h"]
-print("as")
+
 for l in range(8):
     chessboard_row = []
     for n in range(8):
