@@ -40,7 +40,7 @@ white_bishop = pygame.image.load("files/WhiteBishop.png")
 white_bishop = pygame.transform.scale(white_bishop, (70, 70))
 white_bishop_small_side_display = pygame.transform.scale(white_bishop, (45, 45))
 
-white_knight = pygame.image.load("files/King.png")
+white_knight = pygame.image.load("files/WhiteKnight.png")
 white_knight = pygame.transform.scale(white_knight, (70, 70))
 white_knight_small_side_display = pygame.transform.scale(white_knight, (45, 45))
 
@@ -48,11 +48,11 @@ white_rook = pygame.image.load("files/WhiteRook.png")
 white_rook = pygame.transform.scale(white_rook, (70, 70))
 white_rook_small_side_display = pygame.transform.scale(white_rook, (45, 45))
 
-white_queen = pygame.image.load("files/King.png")
+white_queen = pygame.image.load("files/WhiteQueen.png")
 white_queen = pygame.transform.scale(white_queen, (70, 70))
 white_queen_small_side_display = pygame.transform.scale(white_queen, (45, 45))
 
-white_king = pygame.image.load("files/King.png")
+white_king = pygame.image.load("files/WhiteKing.png")
 white_king = pygame.transform.scale(white_king, (70, 70))
 white_king_small_side_display = pygame.transform.scale(white_king, (45, 45))
 
@@ -64,7 +64,7 @@ black_bishop = pygame.image.load("files/BlackBishop.png")
 black_bishop = pygame.transform.scale(black_bishop, (70, 70))
 black_bishop_small_side_display = pygame.transform.scale(black_bishop, (45, 45))
 
-black_knight = pygame.image.load("files/King.png")
+black_knight = pygame.image.load("files/BlackKnight.png")
 black_knight = pygame.transform.scale(black_knight, (70, 70))
 black_knight_small_side_display = pygame.transform.scale(black_knight, (45, 45))
 
@@ -72,11 +72,11 @@ black_rook = pygame.image.load("files/BlackRook.png")
 black_rook = pygame.transform.scale(black_rook, (70, 70))
 black_rook_small_side_display = pygame.transform.scale(black_rook, (45, 45))
 
-black_queen = pygame.image.load("files/King.png")
+black_queen = pygame.image.load("files/BlackQueen.png")
 black_queen = pygame.transform.scale(black_queen, (70, 70))
 black_queen_small_side_display = pygame.transform.scale(black_queen, (45, 45))
 
-black_king = pygame.image.load("files/King.png")
+black_king = pygame.image.load("files/BlackKing.png")
 black_king = pygame.transform.scale(black_king, (70, 70))
 black_king_small_side_display = pygame.transform.scale(black_king, (45, 45))
 
