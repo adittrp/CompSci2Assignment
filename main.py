@@ -32,11 +32,11 @@ selection = 200
 valid_moves = []
 
 # Load in game pieces
-white_pawn = pygame.image.load("files/King.png")
+white_pawn = pygame.image.load("files/WhitePawn.png")
 white_pawn = pygame.transform.scale(white_pawn, (65, 65))
 white_pawn_small_side_display = pygame.transform.scale(white_pawn, (45, 45))
 
-white_bishop = pygame.image.load("files/King.png")
+white_bishop = pygame.image.load("files/WhiteBishop.png")
 white_bishop = pygame.transform.scale(white_bishop, (70, 70))
 white_bishop_small_side_display = pygame.transform.scale(white_bishop, (45, 45))
 
@@ -44,7 +44,7 @@ white_knight = pygame.image.load("files/King.png")
 white_knight = pygame.transform.scale(white_knight, (70, 70))
 white_knight_small_side_display = pygame.transform.scale(white_knight, (45, 45))
 
-white_rook = pygame.image.load("files/King.png")
+white_rook = pygame.image.load("files/WhiteRook.png")
 white_rook = pygame.transform.scale(white_rook, (70, 70))
 white_rook_small_side_display = pygame.transform.scale(white_rook, (45, 45))
 
@@ -56,11 +56,11 @@ white_king = pygame.image.load("files/King.png")
 white_king = pygame.transform.scale(white_king, (70, 70))
 white_king_small_side_display = pygame.transform.scale(white_king, (45, 45))
 
-black_pawn = pygame.image.load("files/King.png")
+black_pawn = pygame.image.load("files/BlackPawn.png")
 black_pawn = pygame.transform.scale(black_pawn, (65, 65))
 black_pawn_small_side_display = pygame.transform.scale(black_pawn, (45, 45))
 
-black_bishop = pygame.image.load("files/King.png")
+black_bishop = pygame.image.load("files/BlackBishop.png")
 black_bishop = pygame.transform.scale(black_bishop, (70, 70))
 black_bishop_small_side_display = pygame.transform.scale(black_bishop, (45, 45))
 
@@ -68,7 +68,7 @@ black_knight = pygame.image.load("files/King.png")
 black_knight = pygame.transform.scale(black_knight, (70, 70))
 black_knight_small_side_display = pygame.transform.scale(black_knight, (45, 45))
 
-black_rook = pygame.image.load("files/King.png")
+black_rook = pygame.image.load("files/BlackRook.png")
 black_rook = pygame.transform.scale(black_rook, (70, 70))
 black_rook_small_side_display = pygame.transform.scale(black_rook, (45, 45))
 
@@ -163,7 +163,7 @@ def check_pawn_moves(position, turn):
         if (position[0], position[1] + 1) not in black_locations and (position[0], position[1] + 1) not in white_locations and position[1] < 7:
             available_moves.append((position[0], position[1] + 1))
 
-        if (position[0], position[1] + 2) not in black_locations and (position[0], position[1] + 2) not in white_locations and position[1] == 1:
+        if (position[0], position[1] + 2) not in black_locations and (position[0], position[1] + 2) not in white_locations and position[1] == 1 and (position[0], position[1] + 1) not in black_locations and (position[0], position[1] + 1) not in white_locations:
             available_moves.append((position[0], position[1] + 2))
 
         if (position[0] + 1, position[1] + 1) in white_locations:
@@ -175,7 +175,7 @@ def check_pawn_moves(position, turn):
         if (position[0], position[1] - 1) not in white_locations and (position[0], position[1] - 1) not in black_locations and position[1] > 0:
             available_moves.append((position[0], position[1] - 1))
 
-        if (position[0], position[1] - 2) not in white_locations and (position[0], position[1] - 2) not in black_locations and position[1] == 6:
+        if (position[0], position[1] - 2) not in white_locations and (position[0], position[1] - 2) not in black_locations and position[1] == 6 and (position[0], position[1] - 1) not in white_locations and (position[0], position[1] - 1) not in black_locations:
             available_moves.append((position[0], position[1] - 2))
 
         if (position[0] + 1, position[1] - 1) in black_locations:
