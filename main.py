@@ -341,17 +341,17 @@ def draw_captured_pieces():
         captured_piece = white_captured_pieces[i]
         index = chess_piece_list.index(captured_piece)
 
-        if i >= 9:
-            window.blit(black_images[index], (800, 10 + 75 * (i - 9)))
+        if i >= 8:
+            window.blit(black_images[index], (800, 10 + 70 * (i - 8)))
         else:
-            window.blit(black_images[index], (725, 10 + 75 * i))
+            window.blit(black_images[index], (725, 10 + 70 * i))
     for i in range(len(black_captured_pieces)):
         captured_piece = black_captured_pieces[i]
         index = chess_piece_list.index(captured_piece)
-        if i >= 9:
-            window.blit(white_images[index], (1010, 10 + 75 * (i - 9)))
+        if i >= 8:
+            window.blit(white_images[index], (1010, 10 + 70 * (i - 8)))
         else:
-            window.blit(white_images[index], (935, 10 + 75 * i))
+            window.blit(white_images[index], (935, 10 + 70 * i))
 
 
 # King in check
