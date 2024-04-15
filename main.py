@@ -38,7 +38,7 @@ white_bishop = pygame.image.load("files/WhiteBishop.png")
 white_bishop = pygame.transform.scale(white_bishop, (70, 70))
 white_bishop_small_side_display = pygame.transform.scale(white_bishop, (45, 45))
 
-white_knight = pygame.image.load("files/WhiteKnight.png")
+white_knight = pygame.image.load("Files/WhiteKnight.png")
 white_knight = pygame.transform.scale(white_knight, (70, 70))
 white_knight_small_side_display = pygame.transform.scale(white_knight, (45, 45))
 
