@@ -25,8 +25,6 @@ black_locations = [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0
                    (0, 1), (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1)]
 black_captured_pieces = []
 
-# 0 - white turn: no piece selected, 1 - white turn: piece selected
-# 2 - black turn: no piece selected, 3 - black turn: piece selected
 current_turn = 0
 selection = 200
 valid_moves = []
@@ -85,7 +83,7 @@ black_images = [black_pawn, black_bishop, black_knight, black_rook, black_queen,
 
 chess_piece_list = ["pawn", "bishop", "knight", "rook", "queen", "king"]
 
-# Counter for king check
+# Counter for king check flashing
 counter = 0
 
 # Draws important things that will show up before pieces
