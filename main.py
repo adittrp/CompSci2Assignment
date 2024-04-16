@@ -374,6 +374,7 @@ def draw_check():
                     if counter < 15:
                         pygame.draw.rect(window, "dark red", (black_locations[king_index][0] * 80 + 40, black_locations[king_index][1] * 80 + 40, 80, 80), 5)
 
+
 black_options = option_checker(black_pieces, black_locations, "black")
 white_options = option_checker(white_pieces, white_locations, "white")
 
