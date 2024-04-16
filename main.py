@@ -9,9 +9,6 @@ window = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption('Chess Boxing!')
 font = pygame.font.SysFont('freesansbold.ttf', 60)
 
-timer = pygame.time.Clock()
-fps = 60
-
 # Set up
 white_pieces = ["rook", "knight", "bishop", "king", "queen", "bishop", "knight", "rook",
                 "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"]
@@ -71,8 +68,6 @@ black_images = [black_pawn, black_bishop, black_knight, black_rook, black_queen,
 
 chess_piece_list = ["pawn", "bishop", "knight", "rook", "queen", "king"]
 
-# Counter for king check flashing
-counter = 0
 
 # Draws important things that will show up before pieces
 def draw_game():
@@ -340,6 +335,10 @@ def draw_captured_pieces():
             window.blit(white_images[index], (935, 10 + 70 * i))
 
 
+# Counter for king check flashing
+counter = 0
+
+
 # King in check
 def draw_check():
     checked = False
@@ -366,10 +365,14 @@ def draw_check():
 black_options = option_checker(black_pieces, black_locations, "black")
 white_options = option_checker(white_pieces, white_locations, "white")
 
+# Timer and frames per second for flashing check
+timer = pygame.time.Clock()
+frames_per_second = 60
+
 # main game loop
 playing = True
 while playing:
-    timer.tick(fps)
+    timer.tick(frames_per_second)
     if counter < 30:
         counter += 1
     else:
@@ -394,19 +397,19 @@ while playing:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             x_coord = (event.pos[0] - 40) // 80
             y_coord = (event.pos[1] - 40) // 80
-            click_coords = (x_coord, y_coord)
+            click_cords = (x_coord, y_coord)
 
             # White turn information
             if current_turn <= 1:
-                if click_coords in white_locations:
-                    selection = white_locations.index(click_coords)
+                if click_cords in white_locations:
+                    selection = white_locations.index(click_cords)
                     if current_turn == 0:
                         current_turn = 1
 
-                if click_coords in valid_moves and selection != 200:
-                    white_locations[selection] = click_coords
-                    if click_coords in black_locations:
-                        black_piece = black_locations.index(click_coords)
+                if click_cords in valid_moves and selection != 200:
+                    white_locations[selection] = click_cords
+                    if click_cords in black_locations:
+                        black_piece = black_locations.index(click_cords)
                         white_captured_pieces.append(black_pieces[black_piece])
                         black_pieces.pop(black_piece)
                         black_locations.pop(black_piece)
@@ -418,15 +421,15 @@ while playing:
 
             # Black turn information
             if current_turn >= 2:
-                if click_coords in black_locations:
-                    selection = black_locations.index(click_coords)
+                if click_cords in black_locations:
+                    selection = black_locations.index(click_cords)
                     if current_turn == 2:
                         current_turn = 3
 
-                if click_coords in valid_moves and selection != 200:
-                    black_locations[selection] = click_coords
-                    if click_coords in white_locations:
-                        white_piece = white_locations.index(click_coords)
+                if click_cords in valid_moves and selection != 200:
+                    black_locations[selection] = click_cords
+                    if click_cords in white_locations:
+                        white_piece = white_locations.index(click_cords)
                         black_captured_pieces.append(white_pieces[white_piece])
                         white_pieces.pop(white_piece)
                         white_locations.pop(white_piece)
