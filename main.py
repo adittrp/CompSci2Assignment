@@ -369,6 +369,14 @@ white_options = option_checker(white_pieces, white_locations, "white")
 timer = pygame.time.Clock()
 frames_per_second = 60
 
+# Boxing-State check
+piece_taken = False
+
+# Taker wins boxing or taken wins
+taker = None
+taker_wins = None
+original_selection = None
+
 # main game loop
 playing = True
 while playing:
@@ -380,64 +388,110 @@ while playing:
 
     window.fill("gray")
 
-    # Call functions
-    draw_game()
-    draw_pieces()
-    draw_captured_pieces()
+    if not piece_taken:
+        # Call functions
+        draw_game()
+        draw_pieces()
+        draw_captured_pieces()
 
-    draw_check()
+        draw_check()
 
-    if selection != 200:
-        valid_moves = check_valid_moves()
-        draw_valid_moves(valid_moves)
+        if selection != 200:
+            valid_moves = check_valid_moves()
+            draw_valid_moves(valid_moves)
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            playing = False
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            x_coord = (event.pos[0] - 40) // 80
-            y_coord = (event.pos[1] - 40) // 80
-            click_cords = (x_coord, y_coord)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                playing = False
 
-            # White turn information
-            if current_turn <= 1:
-                if click_cords in white_locations:
-                    selection = white_locations.index(click_cords)
-                    if current_turn == 0:
-                        current_turn = 1
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                x_coord = (event.pos[0] - 40) // 80
+                y_coord = (event.pos[1] - 40) // 80
+                click_cords = (x_coord, y_coord)
 
-                if click_cords in valid_moves and selection != 200:
-                    white_locations[selection] = click_cords
-                    if click_cords in black_locations:
-                        black_piece = black_locations.index(click_cords)
-                        white_captured_pieces.append(black_pieces[black_piece])
-                        black_pieces.pop(black_piece)
-                        black_locations.pop(black_piece)
-                    black_options = option_checker(black_pieces, black_locations, "black")
-                    white_options = option_checker(white_pieces, white_locations, "white")
-                    current_turn = 2
-                    selection = 200
-                    valid_moves = []
-
-            # Black turn information
-            if current_turn >= 2:
-                if click_cords in black_locations:
-                    selection = black_locations.index(click_cords)
-                    if current_turn == 2:
-                        current_turn = 3
-
-                if click_cords in valid_moves and selection != 200:
-                    black_locations[selection] = click_cords
+                # White turn information
+                if current_turn <= 1:
                     if click_cords in white_locations:
-                        white_piece = white_locations.index(click_cords)
-                        black_captured_pieces.append(white_pieces[white_piece])
-                        white_pieces.pop(white_piece)
-                        white_locations.pop(white_piece)
-                    black_options = option_checker(black_pieces, black_locations, "black")
-                    white_options = option_checker(white_pieces, white_locations, "white")
-                    current_turn = 0
-                    selection = 200
-                    valid_moves = []
+                        selection = white_locations.index(click_cords)
+                        if current_turn == 0:
+                            current_turn = 1
+
+                    if click_cords in valid_moves and selection != 200:
+                        original_selection = white_locations[selection]
+                        white_locations[selection] = click_cords
+                        if click_cords in black_locations:
+                            taker = "White"
+                            taker_wins = None
+                            piece_taken = True
+                            break
+                        black_options = option_checker(black_pieces, black_locations, "black")
+                        white_options = option_checker(white_pieces, white_locations, "white")
+                        current_turn = 2
+                        selection = 200
+                        valid_moves = []
+
+                # Black turn information
+                if current_turn >= 2:
+                    if click_cords in black_locations:
+                        selection = black_locations.index(click_cords)
+                        if current_turn == 2:
+                            current_turn = 3
+
+                    if click_cords in valid_moves and selection != 200:
+                        original_selection = black_locations[selection]
+                        black_locations[selection] = click_cords
+                        if click_cords in white_locations:
+                            taker = "Black"
+                            taker_wins = None
+                            piece_taken = True
+                            break
+                        black_options = option_checker(black_pieces, black_locations, "black")
+                        white_options = option_checker(white_pieces, white_locations, "white")
+                        current_turn = 0
+                        selection = 200
+                        valid_moves = []
+
+    else:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                playing = False
+
+            if event.type == pygame.KEYDOWN:
+                taker_wins = True
+
+        pygame.draw.rect(window, 'gold', [720, 600, 380, 120], 5)
+
+        if taker_wins is not None:
+            if taker == "White":
+                if taker_wins:
+                    black_piece = black_locations.index(click_cords)
+                    white_captured_pieces.append(black_pieces[black_piece])
+                    black_pieces.pop(black_piece)
+                    black_locations.pop(black_piece)
+                else:
+                    white_locations[selection] = original_selection
+                black_options = option_checker(black_pieces, black_locations, "black")
+                white_options = option_checker(white_pieces, white_locations, "white")
+                current_turn = 2
+                selection = 200
+                valid_moves = []
+                piece_taken = False
+            elif taker == "Black":
+                if taker_wins:
+                    white_piece = white_locations.index(click_cords)
+                    black_captured_pieces.append(white_pieces[white_piece])
+                    white_pieces.pop(white_piece)
+                    white_locations.pop(white_piece)
+                else:
+                    black_locations[selection] = original_selection
+                black_options = option_checker(black_pieces, black_locations, "black")
+                white_options = option_checker(white_pieces, white_locations, "white")
+                current_turn = 0
+                selection = 200
+                valid_moves = []
+                piece_taken = False
+
+
 
     pygame.display.update()
 
