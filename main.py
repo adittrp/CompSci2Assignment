@@ -457,9 +457,11 @@ while playing:
                 playing = False
 
             if event.type == pygame.KEYDOWN:
-                taker_wins = True
+                taker_wins = False
 
-        pygame.draw.rect(window, 'gold', [720, 600, 380, 120], 5)
+        boxing_ring = pygame.image.load("files/BoxingRing.png")
+        boxing_ring = pygame.transform.scale(boxing_ring, (1100, 720))
+        window.blit(boxing_ring, (0, 0))
 
         if taker_wins is not None:
             if taker == "White":
