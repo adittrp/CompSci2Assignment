@@ -1,3 +1,5 @@
+import boxing_state
+
 import pygame
 pygame.init()
 
@@ -377,6 +379,10 @@ taker = None
 taker_wins = None
 original_selection = None
 
+Queen_attack_animation = ["Files/WhiteQueenAttacks/WhiteQueenAttack1.png", "Files/WhiteQueenAttacks/WhiteQueenAttack2.png", "Files/WhiteQueenAttacks/WhiteQueenAttack3.png","Files/WhiteQueenAttacks/WhiteQueenAttack4.png"]
+value = 0
+attack_start = False
+
 # main game loop
 playing = True
 while playing:
@@ -457,11 +463,31 @@ while playing:
                 playing = False
 
             if event.type == pygame.KEYDOWN:
-                taker_wins = False
+                if event.key == pygame.K_a:
+                    taker_wins = False
+
+                if event.key == pygame.K_w:
+                    attack_start = True
 
         boxing_ring = pygame.image.load("files/BoxingRing.png")
         boxing_ring = pygame.transform.scale(boxing_ring, (1100, 720))
         window.blit(boxing_ring, (0, 0))
+
+        if attack_start:
+            boxing = boxing_state.play_animation(Queen_attack_animation, value, window)
+
+            if boxing[1] == False:
+                attack_start = False
+            else:
+
+                attack_example = pygame.image.load(boxing[0])
+                attack_example = pygame.transform.scale(attack_example, (500, 500))
+                window.blit(attack_example, (300, 200))
+        else:
+            image = Queen_attack_animation[int(0)]
+            attack_Example = pygame.image.load(image)
+            attack_Example = pygame.transform.scale(attack_Example, (500, 500))
+            window.blit(attack_Example, (300, 200))
 
         if taker_wins is not None:
             if taker == "White":
