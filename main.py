@@ -379,9 +379,20 @@ taker = None
 taker_wins = None
 original_selection = None
 
-Queen_attack_animation = ["Files/WhiteQueenAttacks/WhiteQueenAttack1.png", "Files/WhiteQueenAttacks/WhiteQueenAttack2.png", "Files/WhiteQueenAttacks/WhiteQueenAttack3.png","Files/WhiteQueenAttacks/WhiteQueenAttack4.png"]
-value = 0
+Queen_attack_animation = ["Files/Player1Attack1/WhiteQueenAttack1.png", "Files/Player1Attack1/WhiteQueenAttack2.png", "Files/Player1Attack1/WhiteQueenAttack3.png","Files/Player1Attack1/WhiteQueenAttack4.png"]
 attack_start = False
+
+player1Attack = False
+player2Block = False
+
+player2Attack = False
+Player2Block = False
+
+player1AttackAnimation1 = ["Files/WhiteQueenAttack1/WhiteQueenAttack1.png", "Files/WhiteQueenAttack1/WhiteQueenAttack2.png", "Files/WhiteQueenAttack1/WhiteQueenAttack3.png","Files/WhiteQueenAttack1/WhiteQueenAttack4.png"]
+player2AttackAnimation1 = ["Files/Player1Attack1/WhiteQueenAttack1.png", "Files/Player1Attack1/WhiteQueenAttack2.png", "Files/Player1Attack1/WhiteQueenAttack3.png","Files/Player1Attack1/WhiteQueenAttack4.png"]
+
+boxer1 = boxing_state.Boxer(window, 200, 200, player1AttackAnimation1)
+boxer2 = boxing_state.Boxer(window, 500, 200, player2AttackAnimation1)
 
 # main game loop
 playing = True
@@ -467,27 +478,17 @@ while playing:
                     taker_wins = False
 
                 if event.key == pygame.K_w:
-                    attack_start = True
+                    player1Attack = True
+                if event.key == pygame.K_s:
+                    player2Attack = True
+
 
         boxing_ring = pygame.image.load("files/BoxingRing.png")
         boxing_ring = pygame.transform.scale(boxing_ring, (1100, 720))
         window.blit(boxing_ring, (0, 0))
 
-        if attack_start:
-            boxing = boxing_state.play_animation(Queen_attack_animation, value, window)
-
-            if boxing[1] == False:
-                attack_start = False
-            else:
-
-                attack_example = pygame.image.load(boxing[0])
-                attack_example = pygame.transform.scale(attack_example, (500, 500))
-                window.blit(attack_example, (300, 200))
-        else:
-            image = Queen_attack_animation[int(0)]
-            attack_Example = pygame.image.load(image)
-            attack_Example = pygame.transform.scale(attack_Example, (500, 500))
-            window.blit(attack_Example, (300, 200))
+        player1Attack = boxer1.attack(player1Attack)
+        player2Attack = boxer2.attack(player2Attack)
 
         if taker_wins is not None:
             if taker == "White":
