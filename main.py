@@ -381,17 +381,20 @@ original_selection = None
 
 attack_start = False
 
-player1Attack = False
-player2Block = False
+player1Attack1 = False
+player1Block1 = False
 
-player2Attack = False
-Player2Block = False
+player2Attack1 = False
+player2Block1 = False
 
 player1AttackAnimation1 = ["Files/Player1Attack1/Player1Attack1Image1.png", "Files/Player1Attack1/Player1Attack1Image2.png", "Files/Player1Attack1/Player1Attack1Image3.png","Files/Player1Attack1/Player1Attack1Image4.png"]
-player2AttackAnimation1 = ["Files/Player2Attack1/Player2Attack1Image1.png", "Files/Player2Attack1/Player2Attack1Image2.png", "Files/Player2Attack1/Player2Attack1Image3.png","Files/Player2Attack1/Player2Attack1Image4.png"]
+player1BlockAnimation1 = ["Files/Player1Block1/Player1Block1Image1.png","Files/Player1Block1/Player1Block1Image2.png", "Files/Player1Block1/Player1Block1Image3.png"]
 
-boxer1 = boxing_state.Boxer(window, 100, 200, player1AttackAnimation1)
-boxer2 = boxing_state.Boxer(window, 700, 200, player2AttackAnimation1)
+player2AttackAnimation1 = ["Files/Player2Attack1/Player2Attack1Image1.png", "Files/Player2Attack1/Player2Attack1Image2.png", "Files/Player2Attack1/Player2Attack1Image3.png","Files/Player2Attack1/Player2Attack1Image4.png"]
+player2BlockAnimation1 = []
+
+boxer1 = boxing_state.Boxer(window, 100, 200, player1AttackAnimation1, player1BlockAnimation1)
+boxer2 = boxing_state.Boxer(window, 700, 200, player2AttackAnimation1, player2BlockAnimation1)
 
 # main game loop
 playing = True
@@ -473,21 +476,45 @@ while playing:
                 playing = False
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_a:
+                if event.key == pygame.K_q:
                     taker_wins = False
 
                 if event.key == pygame.K_w:
-                    player1Attack = True
+                    player1Attack1 = True
                 if event.key == pygame.K_s:
-                    player2Attack = True
+                    player2Attack1 = True
+
+                if event.key == pygame.K_a:
+                    player1Block1 = True
+                if event.key == pygame.K_d:
+                    player2Block1 = True
+                print(player1Block1, player2Block1)
+
+            elif event.type == pygame.KEYUP:
+                player1Block1 = False
+                player2Block1 = False
+
+                print(player1Block1, player2Block1)
+
 
 
         boxing_ring = pygame.image.load("files/BoxingRing.png")
         boxing_ring = pygame.transform.scale(boxing_ring, (1100, 720))
         window.blit(boxing_ring, (0, 0))
 
-        player1Attack = boxer1.attack(player1Attack)
-        player2Attack = boxer2.attack(player2Attack)
+        if player1Attack1:
+            player1Attack1 = boxer1.attack()
+        elif player1Block1:
+            player1Block1 = boxer1.defend()
+        else:
+            boxer1.idle()
+
+        if player2Attack1:
+            player2Attack1 = boxer2.attack()
+        #elif playerBlock1:
+        #    player2Block1 = boxer1.defend()
+        else:
+            boxer2.idle()
 
         if taker_wins is not None:
             if taker == "White":
