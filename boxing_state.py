@@ -16,14 +16,19 @@ class Boxer:
 
             self.value = boxing[2]
             if not boxing[1]:
+                image = self.attack_anim[int(0)]
+                attack = pygame.image.load(image)
+                attack = pygame.transform.scale(attack, (500, 500))
+                self.window.blit(attack, (self.x, self.y))
+
                 return False
             else:
                 return True
         else:
             image = self.attack_anim[int(0)]
-            attack_Example = pygame.image.load(image)
-            attack_Example = pygame.transform.scale(attack_Example, (500, 500))
-            self.window.blit(attack_Example, (self.x, self.y))
+            attack = pygame.image.load(image)
+            attack = pygame.transform.scale(attack, (500, 500))
+            self.window.blit(attack, (self.x, self.y))
 
         return False
 
@@ -36,9 +41,9 @@ def play_animation(attack_sheet, value, window, x, y):
             image = attack_sheet[int(value)]
         else:
             image = attack_sheet[int(value)]
-        attack_example = pygame.image.load(image)
-        attack_example = pygame.transform.scale(attack_example, (500, 500))
-        window.blit(attack_example, (x, y))
+        attack = pygame.image.load(image)
+        attack = pygame.transform.scale(attack, (500, 500))
+        window.blit(attack, (x, y))
 
     value += 0.1
 
