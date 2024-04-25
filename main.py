@@ -379,7 +379,6 @@ taker = None
 taker_wins = None
 original_selection = None
 
-Queen_attack_animation = ["Files/Player1Attack1/WhiteQueenAttack1.png", "Files/Player1Attack1/WhiteQueenAttack2.png", "Files/Player1Attack1/WhiteQueenAttack3.png","Files/Player1Attack1/WhiteQueenAttack4.png"]
 attack_start = False
 
 player1Attack = False
@@ -388,11 +387,11 @@ player2Block = False
 player2Attack = False
 Player2Block = False
 
-player1AttackAnimation1 = ["Files/WhiteQueenAttack1/WhiteQueenAttack1.png", "Files/WhiteQueenAttack1/WhiteQueenAttack2.png", "Files/WhiteQueenAttack1/WhiteQueenAttack3.png","Files/WhiteQueenAttack1/WhiteQueenAttack4.png"]
-player2AttackAnimation1 = ["Files/Player1Attack1/WhiteQueenAttack1.png", "Files/Player1Attack1/WhiteQueenAttack2.png", "Files/Player1Attack1/WhiteQueenAttack3.png","Files/Player1Attack1/WhiteQueenAttack4.png"]
+player1AttackAnimation1 = ["Files/Player1Attack1/Player1Attack1Image1.png", "Files/Player1Attack1/Player1Attack1Image2.png", "Files/Player1Attack1/Player1Attack1Image3.png","Files/Player1Attack1/Player1Attack1Image4.png"]
+player2AttackAnimation1 = ["Files/Player2Attack1/Player2Attack1Image1.png", "Files/Player2Attack1/Player2Attack1Image2.png", "Files/Player2Attack1/Player2Attack1Image3.png","Files/Player2Attack1/Player2Attack1Image4.png"]
 
-boxer1 = boxing_state.Boxer(window, 200, 200, player1AttackAnimation1)
-boxer2 = boxing_state.Boxer(window, 500, 200, player2AttackAnimation1)
+boxer1 = boxing_state.Boxer(window, 100, 200, player1AttackAnimation1)
+boxer2 = boxing_state.Boxer(window, 700, 200, player2AttackAnimation1)
 
 # main game loop
 playing = True

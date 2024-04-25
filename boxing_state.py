@@ -2,13 +2,13 @@ import pygame
 
 
 class Boxer:
-    def __init__(self, window, x, y, attack1_animation):
+    def __init__(self, window, x, y, attack_animation):
         print("as")
         self.window = window
         self.x = x
         self.y = y
         self.value = 0
-        self.attack_anim = attack1_animation
+        self.attack_anim = attack_animation
 
     def attack(self, attack_available):
         if attack_available:
