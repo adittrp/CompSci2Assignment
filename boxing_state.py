@@ -14,6 +14,9 @@ class Boxer:
 
         self.build_up_block = True
 
+        self.attack_damage = 10
+        self.health = 100
+
     def attack(self):
         boxing = play_attack_animation(self.attack_anim_1, self.value, self.window, self.x, self.y, 0.2)
 
@@ -55,6 +58,14 @@ class Boxer:
 
     def reset_block_bool(self):
         self.build_up_block = True
+
+    def update_health(self, font, window, x_increment, rect_val_1):
+        pygame.draw.rect(window, 'light gray', [rect_val_1, 0, 380, 125], 100)
+        pygame.draw.rect(window, 'gold', [rect_val_1, 0, 380, 125], 5)
+
+        text = font.render("Health: " + str(self.health), True, 'black')
+        text_rect = text.get_rect(center=(self.x + x_increment, self.y - 135))
+        window.blit(text, text_rect)
 
 
 def play_attack_animation(attack_sheet, value, window, x, y, value_added):

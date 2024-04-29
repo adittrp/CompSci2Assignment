@@ -394,7 +394,7 @@ player2AttackAnimation1 = ["Files/Player2Attack1/Player2Attack1Image1.png", "Fil
 player2BlockAnimation1 = ["Files/Player2Block1/Player2Block1Image1.png", "Files/Player2Block1/Player2Block1Image2.png"]
 
 boxer1 = boxing_state.Boxer(window, 100, 200, player1AttackAnimation1, player1BlockAnimation1)
-boxer2 = boxing_state.Boxer(window, 700, 200, player2AttackAnimation1, player2BlockAnimation1)
+boxer2 = boxing_state.Boxer(window, 500, 200, player2AttackAnimation1, player2BlockAnimation1)
 
 # main game loop
 playing = True
@@ -514,6 +514,9 @@ while playing:
             player2Block1 = boxer2.defend()
         if not player2Block1 and not player2Attack1:
             boxer2.idle()
+
+        boxer1.update_health(font, window, 100, 0)
+        boxer2.update_health(font, window, 425, 720)
 
         if taker_wins is not None:
             if taker == "White":
