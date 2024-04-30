@@ -13,11 +13,20 @@ class Boxer:
         self.block_anim_1 = block_animation1
 
         self.build_up_block = True
+        self.first_time_attack = True
+
+        self.blocking = False
 
         self.attack_damage = 10
         self.health = 100
 
-    def attack(self):
+    def attack(self, other_boxer):
+        if self.first_time_attack:
+            if not other_boxer.blocking:
+                other_boxer.health -= 10
+
+            self.first_time_attack = False
+
         boxing = play_attack_animation(self.attack_anim_1, self.value, self.window, self.x, self.y, 0.2)
 
         self.value = boxing[2]
@@ -48,9 +57,14 @@ class Boxer:
             block = pygame.transform.scale(block, (500, 500))
             self.window.blit(block, (self.x, self.y))
 
+        self.blocking = True
+
         return True
 
     def idle(self):
+        self.blocking = False
+        self.first_time_attack = True
+
         image = self.idle_anim
         idle = pygame.image.load(image)
         idle = pygame.transform.scale(idle, (500, 500))
@@ -67,6 +81,11 @@ class Boxer:
         text_rect = text.get_rect(center=(self.x + x_increment, self.y - 135))
         window.blit(text, text_rect)
 
+    def check_health(self):
+        if self.health <= 0:
+            return True
+        else:
+            return False
 
 def play_attack_animation(attack_sheet, value, window, x, y, value_added):
     if value >= len(attack_sheet):

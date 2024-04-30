@@ -393,9 +393,6 @@ player1BlockAnimation1 = ["Files/Player1Block1/Player1Block1Image1.png", "Files/
 player2AttackAnimation1 = ["Files/Player2Attack1/Player2Attack1Image1.png", "Files/Player2Attack1/Player2Attack1Image2.png", "Files/Player2Attack1/Player2Attack1Image3.png", "Files/Player2Attack1/Player2Attack1Image4.png"]
 player2BlockAnimation1 = ["Files/Player2Block1/Player2Block1Image1.png", "Files/Player2Block1/Player2Block1Image2.png"]
 
-boxer1 = boxing_state.Boxer(window, 100, 200, player1AttackAnimation1, player1BlockAnimation1)
-boxer2 = boxing_state.Boxer(window, 500, 200, player2AttackAnimation1, player2BlockAnimation1)
-
 # main game loop
 playing = True
 while playing:
@@ -439,6 +436,14 @@ while playing:
                         original_selection = white_locations[selection]
                         white_locations[selection] = click_cords
                         if click_cords in black_locations:
+                            boxer1 = boxing_state.Boxer(window, 100, 200, player1AttackAnimation1, player1BlockAnimation1)
+                            boxer2 = boxing_state.Boxer(window, 500, 200, player2AttackAnimation1, player2BlockAnimation1)
+
+                            player1Attack1 = False
+                            player2Attack1 = False
+                            player1Block1 = False
+                            player2Block1 = False
+
                             taker = "White"
                             taker_wins = None
                             piece_taken = True
@@ -460,6 +465,14 @@ while playing:
                         original_selection = black_locations[selection]
                         black_locations[selection] = click_cords
                         if click_cords in white_locations:
+                            boxer1 = boxing_state.Boxer(window, 100, 200, player1AttackAnimation1, player1BlockAnimation1)
+                            boxer2 = boxing_state.Boxer(window, 500, 200, player2AttackAnimation1, player2BlockAnimation1)
+
+                            player1Attack1 = False
+                            player2Attack1 = False
+                            player1Block1 = False
+                            player2Block1 = False
+
                             taker = "Black"
                             taker_wins = None
                             piece_taken = True
@@ -502,14 +515,14 @@ while playing:
         window.blit(boxing_ring, (0, 0))
 
         if player1Attack1:
-            player1Attack1 = boxer1.attack()
+            player1Attack1 = boxer1.attack(boxer2)
         elif player1Block1:
             player1Block1 = boxer1.defend()
         if not player1Block1 and not player1Attack1:
             boxer1.idle()
 
         if player2Attack1:
-            player2Attack1 = boxer2.attack()
+            player2Attack1 = boxer2.attack(boxer1)
         elif player2Block1:
             player2Block1 = boxer2.defend()
         if not player2Block1 and not player2Attack1:
@@ -517,6 +530,21 @@ while playing:
 
         boxer1.update_health(font, window, 100, 0)
         boxer2.update_health(font, window, 425, 720)
+
+        boxer1_lose = boxer1.check_health()
+        boxer2_lose = boxer2.check_health()
+
+        if boxer1_lose or boxer2_lose:
+            if taker == "White":
+                if boxer1_lose:
+                    taker_wins = False
+                if boxer2_lose:
+                    taker_wins = True
+            elif taker == "Black":
+                if boxer1_lose:
+                    taker_wins = True
+                if boxer2_lose:
+                    taker_wins = False
 
         if taker_wins is not None:
             if taker == "White":
@@ -546,6 +574,8 @@ while playing:
                 current_turn = 0
                 selection = 200
                 valid_moves = []
+
+                taker_wins = None
                 piece_taken = False
 
 
