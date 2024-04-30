@@ -2,7 +2,7 @@ import pygame
 
 
 class Boxer:
-    def __init__(self, window, x, y, attack_animation1, block_animation1):
+    def __init__(self, window, x, y, attack_animation1, block_animation1, attack_amt, health_amt):
         print("as")
         self.window = window
         self.x = x
@@ -13,24 +13,23 @@ class Boxer:
         self.block_anim_1 = block_animation1
 
         self.build_up_block = True
-        self.first_time_attack = True
 
         self.blocking = False
 
-        self.attack_damage = 10
-        self.health = 100
+        self.attack_damage = attack_amt
+        self.health = health_amt
 
     def attack(self, other_boxer):
-        if self.first_time_attack:
-            if not other_boxer.blocking:
-                other_boxer.health -= 10
-
-            self.first_time_attack = False
-
-        boxing = play_attack_animation(self.attack_anim_1, self.value, self.window, self.x, self.y, 0.2)
+        boxing = play_attack_animation(self.attack_anim_1, self.value, self.window, self.x, self.y, 0.4)
 
         self.value = boxing[2]
         if not boxing[1]:
+
+            if not other_boxer.blocking:
+                other_boxer.health -= self.attack_damage
+            else:
+                other_boxer.health -= int(self.attack_damage/3)
+
             image = self.attack_anim_1[int(0)]
             attack = pygame.image.load(image)
             attack = pygame.transform.scale(attack, (500, 500))
@@ -42,7 +41,7 @@ class Boxer:
 
     def defend(self):
         if self.build_up_block:
-            boxing = play_attack_animation(self.block_anim_1, self.value, self.window, self.x, self.y, 0.25)
+            boxing = play_attack_animation(self.block_anim_1, self.value, self.window, self.x, self.y, 0.3)
 
             self.value = boxing[2]
             if not boxing[1]:
@@ -63,7 +62,6 @@ class Boxer:
 
     def idle(self):
         self.blocking = False
-        self.first_time_attack = True
 
         image = self.idle_anim
         idle = pygame.image.load(image)

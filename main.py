@@ -70,6 +70,15 @@ black_images = [black_pawn, black_bishop, black_knight, black_rook, black_queen,
 
 chess_piece_list = ["pawn", "bishop", "knight", "rook", "queen", "king"]
 
+chess_piece_health_and_damage = {
+    "pawn": (50, 10),
+    "bishop": (75, 15),
+    "knight": (75, 15),
+    "rook": (75, 20),
+    "queen": (100, 20),
+    "king": (150, 10),
+}
+
 
 # Draws important things that will show up before pieces
 def draw_game():
@@ -436,8 +445,11 @@ while playing:
                         original_selection = white_locations[selection]
                         white_locations[selection] = click_cords
                         if click_cords in black_locations:
-                            boxer1 = boxing_state.Boxer(window, 100, 200, player1AttackAnimation1, player1BlockAnimation1)
-                            boxer2 = boxing_state.Boxer(window, 500, 200, player2AttackAnimation1, player2BlockAnimation1)
+                            white_piece_name = white_pieces[selection]
+                            black_piece_name = black_pieces[black_locations.index(click_cords)]
+
+                            boxer1 = boxing_state.Boxer(window, 100, 200, player1AttackAnimation1, player1BlockAnimation1, chess_piece_health_and_damage[white_piece_name][1], chess_piece_health_and_damage[white_piece_name][0])
+                            boxer2 = boxing_state.Boxer(window, 500, 200, player2AttackAnimation1, player2BlockAnimation1, chess_piece_health_and_damage[black_piece_name][1], chess_piece_health_and_damage[black_piece_name][0])
 
                             player1Attack1 = False
                             player2Attack1 = False
@@ -465,8 +477,11 @@ while playing:
                         original_selection = black_locations[selection]
                         black_locations[selection] = click_cords
                         if click_cords in white_locations:
-                            boxer1 = boxing_state.Boxer(window, 100, 200, player1AttackAnimation1, player1BlockAnimation1)
-                            boxer2 = boxing_state.Boxer(window, 500, 200, player2AttackAnimation1, player2BlockAnimation1)
+                            black_piece_name = black_pieces[selection]
+                            white_piece_name = white_pieces[white_locations.index(click_cords)]
+
+                            boxer1 = boxing_state.Boxer(window, 100, 200, player1AttackAnimation1, player1BlockAnimation1, chess_piece_health_and_damage[white_piece_name][1], chess_piece_health_and_damage[white_piece_name][0])
+                            boxer2 = boxing_state.Boxer(window, 500, 200, player2AttackAnimation1, player2BlockAnimation1, chess_piece_health_and_damage[black_piece_name][1], chess_piece_health_and_damage[black_piece_name][0])
 
                             player1Attack1 = False
                             player2Attack1 = False
