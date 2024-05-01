@@ -10,6 +10,7 @@ window_height = 720
 window = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption('Chess Boxing!')
 font = pygame.font.SysFont('freesansbold.ttf', 60)
+font_small = pygame.font.SysFont('freesansbold.ttf', 25)
 
 # Set up
 white_pieces = ["rook", "knight", "bishop", "king", "queen", "bishop", "knight", "rook",
@@ -396,6 +397,26 @@ player1Block1 = False
 player2Attack1 = False
 player2Block1 = False
 
+# First value is attack1, second value is block1, third value is attack2, fourth value is block2
+white_piece_animation = {
+    "pawn": (),
+    "bishop": (),
+    "knight": (),
+    "rook": (),
+    "queen": (),
+    "king": ()
+}
+
+# First value is attack1, second value is block1, third value is attack2, fourth value is block2
+black_piece_animation = {
+    "pawn": (),
+    "bishop": (),
+    "knight": (),
+    "rook": (),
+    "queen": (),
+    "king": ()
+}
+
 player1AttackAnimation1 = ["Files/Player1Attack1/Player1Attack1Image1.png", "Files/Player1Attack1/Player1Attack1Image2.png", "Files/Player1Attack1/Player1Attack1Image3.png","Files/Player1Attack1/Player1Attack1Image4.png"]
 player1BlockAnimation1 = ["Files/Player1Block1/Player1Block1Image1.png", "Files/Player1Block1/Player1Block1Image2.png"]
 
@@ -545,6 +566,16 @@ while playing:
 
         boxer1.update_health(font, window, 100, 0)
         boxer2.update_health(font, window, 425, 720)
+
+        # Display Controls
+        pygame.draw.rect(window, 'light gray', [360, 0, 380, 125], 100)
+        pygame.draw.rect(window, 'gold', [360, 0, 380, 125], 5)
+        text_to_render = ["Controls (WASD and Arrow keys):", "Player 1: W for High Attack, A for High Block", "Player 2: ^ for High Attack, < for High Block"]
+
+        for text in text_to_render:
+            render = font_small.render(text, True, 'black')
+            text_rect = render.get_rect(center=(550, 25 + (text_to_render.index(text) * 35)))
+            window.blit(render, text_rect)
 
         boxer1_lose = boxer1.check_health()
         boxer2_lose = boxer2.check_health()
