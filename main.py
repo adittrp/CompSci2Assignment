@@ -512,9 +512,9 @@ while playing:
                 if event.key == pygame.K_UP and not player2Block1:
                     player2Attack1 = True
 
-                if event.key == pygame.K_a and not player1Attack1:
+                if event.key == pygame.K_a:
                     player1Block1 = True
-                if event.key == pygame.K_LEFT and not player2Attack1:
+                if event.key == pygame.K_LEFT:
                     player2Block1 = True
 
             elif event.type == pygame.KEYUP:
