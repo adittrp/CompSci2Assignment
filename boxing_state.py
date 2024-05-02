@@ -28,7 +28,7 @@ class Boxer:
             if not other_boxer.blocking:
                 other_boxer.health -= self.attack_damage
             else:
-                other_boxer.health -= int(self.attack_damage/3)
+                other_boxer.health -= int(self.attack_damage/5)
 
             image = self.attack_anim_1[int(0)]
             attack = pygame.image.load(image)

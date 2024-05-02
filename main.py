@@ -13,14 +13,18 @@ font = pygame.font.SysFont('freesansbold.ttf', 60)
 font_small = pygame.font.SysFont('freesansbold.ttf', 25)
 
 # Set up
-white_pieces = ["rook", "knight", "bishop", "king", "queen", "bishop", "knight", "rook",
+white_pieces = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook",
                 "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"]
+white_health_and_damage = [(100, 10), (75, 15), (75, 15), (100, 20), (150, 10), (75, 15), (75, 15), (100, 10),
+                           (75, 10), (75, 10), (75, 10), (75, 10), (75, 10), (75, 10), (75, 10), (75, 10)]
 white_locations = [(0, 7), (1, 7), (2, 7), (3, 7), (4, 7), (5, 7), (6, 7), (7, 7),
                    (0, 6), (1, 6), (2, 6), (3, 6), (4, 6), (5, 6), (6, 6), (7, 6)]
 white_captured_pieces = []
 
-black_pieces = ["rook", "knight", "bishop", "king", "queen", "bishop", "knight", "rook",
+black_pieces = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook",
                 "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"]
+black_health_and_damage = [(100, 10), (75, 15), (75, 15), (100, 20), (150, 10), (75, 15), (75, 15), (100, 10),
+                           (75, 10), (75, 10), (75, 10), (75, 10), (75, 10), (75, 10), (75, 10), (75, 10)]
 black_locations = [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0),
                    (0, 1), (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1)]
 black_captured_pieces = []
@@ -72,10 +76,10 @@ black_images = [black_pawn, black_bishop, black_knight, black_rook, black_queen,
 chess_piece_list = ["pawn", "bishop", "knight", "rook", "queen", "king"]
 
 chess_piece_health_and_damage = {
-    "pawn": (50, 10),
+    "pawn": (75, 10),
     "bishop": (75, 15),
     "knight": (75, 15),
-    "rook": (75, 20),
+    "rook": (100, 15),
     "queen": (100, 20),
     "king": (150, 10),
 }
