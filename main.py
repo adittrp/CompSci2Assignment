@@ -31,7 +31,7 @@ black_captured_pieces = []
 
 current_turn = 0
 selected_piece = 200
-valid_moves = []
+possible_moves = []
 
 # game pieces
 white_pawn = pygame.image.load("files/WhitePawn.png")
@@ -86,7 +86,7 @@ chess_piece_health_and_damage = {
 
 
 # Draws important things that will show up before pieces
-def draw_game():
+def display_game():
     chessboard = pygame.image.load('files/chess board.png')
     window.blit(chessboard, (0, 0))
     pygame.draw.rect(window, 'gold', [720, 0, 380, window_height], 5)
@@ -101,7 +101,7 @@ def draw_game():
 
 
 # Draws the pieces in their designated spots
-def draw_pieces():
+def display_pieces():
     for i in range(len(black_piece_structure)):
         index = chess_piece_list.index(black_piece_structure[i])
         if black_piece_structure[i] == "pawn":
@@ -125,7 +125,7 @@ def draw_pieces():
                 pygame.draw.rect(window, "red", [white_piece_locations[i][0] * 80 + 40, white_piece_locations[i][1] * 80 + 40, 80, 80], 2)
 
 
-# Checks all valid options to move
+# Checks all possible options to move
 def check_possible_move_options(pieces, locations, turn):
     moves_list = []
     all_moves_list = []
@@ -197,26 +197,26 @@ def check_bishop_moves(piece_location, turn):
 
     for i in range(4):  # up-right, up-left, down-right, down-left
         path = True
-        chain = 1
+        iterations = 1
         if i == 0:
-            x = 1
-            y = -1
+            x_increment = 1
+            y_increment = -1
         elif i == 1:
-            x = -1
-            y = -1
+            x_increment = -1
+            y_increment = -1
         elif i == 2:
-            x = 1
-            y = 1
+            x_increment = 1
+            y_increment = 1
         else:
-            x = -1
-            y = 1
+            x_increment = -1
+            y_increment = 1
         while path:
-            if (piece_location[0] + (chain * x), piece_location[1] + (chain * y)) not in friends_list and 0 <= piece_location[0] + (chain * x) <= 7 and 0 <= piece_location[1] + (chain * y) <= 7:
-                available_moves.append((piece_location[0] + (chain * x), piece_location[1] + (chain * y)))
+            if (piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)) not in friends_list and 0 <= piece_location[0] + (iterations * x_increment) <= 7 and 0 <= piece_location[1] + (iterations * y_increment) <= 7:
+                available_moves.append((piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)))
 
-                if (piece_location[0] + (chain * x), piece_location[1] + (chain * y)) in opposition_list:
+                if (piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)) in opposition_list:
                     path = False
-                chain += 1
+                iterations += 1
             else:
                 path = False
 
@@ -256,26 +256,26 @@ def check_rook_moves(piece_location, turn):
     # Straight line movements
     for i in range(4):
         path = True
-        chain = 1
+        iterations = 1
         if i == 0:
-            x = 0
-            y = 1
+            x_increment = 0
+            y_increment = 1
         elif i == 1:
-            x = 0
-            y = -1
+            x_increment = 0
+            y_increment = -1
         elif i == 2:
-            x = 1
-            y = 0
+            x_increment = 1
+            y_increment = 0
         else:
-            x = -1
-            y = 0
+            x_increment = -1
+            y_increment = 0
         while path:
-            if (piece_location[0] + (chain * x), piece_location[1] + (chain * y)) not in friends_list and 0 <= piece_location[0] + (chain * x) <= 7 and 0 <= piece_location[1] + (chain * y) <= 7:
-                available_moves.append((piece_location[0] + (chain * x), piece_location[1] + (chain * y)))
+            if (piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)) not in friends_list and 0 <= piece_location[0] + (iterations * x_increment) <= 7 and 0 <= piece_location[1] + (iterations * y_increment) <= 7:
+                available_moves.append((piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)))
 
-                if (piece_location[0] + (chain * x), piece_location[1] + (chain * y)) in opposition_list:
+                if (piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)) in opposition_list:
                     path = False
-                chain += 1
+                iterations += 1
             else:
                 path = False
     return available_moves
@@ -312,21 +312,21 @@ def check_king_moves(piece_location, turn):
     return available_moves
 
 
-# Check valid moves for selected piece only
-def check_valid_moves():
+# Check possible moves for selected piece only
+def check_possible_moves():
     if current_turn < 2:
         options_list = white_options
     else:
         options_list = black_options
 
-    valid_options = options_list[selected_piece]
-    return valid_options
+    possible_options = options_list[selected_piece]
+    return possible_options
 
 
-# Draw valid moves onto the window
-def draw_valid_moves(moves_valid):
-    for i in range(len(moves_valid)):
-        pygame.draw.circle(window, "gray", (moves_valid[i][0] * 80 + 80, moves_valid[i][1] * 80 + 80), 5)
+# Draw possible moves onto the window
+def draw_possible_moves(moves_possible):
+    for i in range(len(moves_possible)):
+        pygame.draw.circle(window, "gray", (moves_possible[i][0] * 80 + 80, moves_possible[i][1] * 80 + 80), 5)
 
 
 # Draw captured pieces
@@ -349,8 +349,8 @@ def draw_captured_pieces():
             window.blit(white_images[index], (935, 10 + 70 * i))
 
 
-# Counter for king check flashing
-counter = 0
+# counter for king check flashing
+check_counter = 0
 
 
 # King in check
@@ -363,7 +363,7 @@ def draw_check():
 
             for i in range(len(black_options)):
                 if king_location in black_options[i]:
-                    if counter < 15:
+                    if check_counter < 15:
                         pygame.draw.rect(window, "dark red", (white_piece_locations[king_index][0] * 80 + 40, white_piece_locations[king_index][1] * 80 + 40, 80, 80), 5)
     else:
         if "king" in white_piece_structure:
@@ -372,7 +372,7 @@ def draw_check():
 
             for i in range(len(white_options)):
                 if king_location in white_options[i]:
-                    if counter < 15:
+                    if check_counter < 15:
                         pygame.draw.rect(window, "dark red", (black_piece_locations[king_index][0] * 80 + 40, black_piece_locations[king_index][1] * 80 + 40, 80, 80), 5)
 
 
@@ -429,24 +429,24 @@ player2BlockAnimation1 = ["Files/Player2Block1/Player2Block1Image1.png", "Files/
 playing = True
 while playing:
     timer.tick(frames_per_second)
-    if counter < 30:
-        counter += 1
+    if check_counter < 30:
+        check_counter += 1
     else:
-        counter = 0
+        check_counter = 0
 
     window.fill("gray")
 
     if not piece_taken:
         # Call functions
-        draw_game()
-        draw_pieces()
+        display_game()
+        display_pieces()
         draw_captured_pieces()
 
         draw_check()
 
         if selected_piece != 200:
-            valid_moves = check_valid_moves()
-            draw_valid_moves(valid_moves)
+            possible_moves = check_possible_moves()
+            draw_possible_moves(possible_moves)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -464,7 +464,7 @@ while playing:
                         if current_turn == 0:
                             current_turn = 1
 
-                    if click_cords in valid_moves and selected_piece != 200:
+                    if click_cords in possible_moves and selected_piece != 200:
                         original_selection = white_piece_locations[selected_piece]
                         white_piece_locations[selected_piece] = click_cords
                         if click_cords in black_piece_locations:
@@ -487,7 +487,7 @@ while playing:
                         white_options = check_possible_move_options(white_piece_structure, white_piece_locations, "white")
                         current_turn = 2
                         selected_piece = 200
-                        valid_moves = []
+                        possible_moves = []
 
                 # Black turn information
                 if current_turn >= 2:
@@ -496,7 +496,7 @@ while playing:
                         if current_turn == 2:
                             current_turn = 3
 
-                    if click_cords in valid_moves and selected_piece != 200:
+                    if click_cords in possible_moves and selected_piece != 200:
                         original_selection = black_piece_locations[selected_piece]
                         black_piece_locations[selected_piece] = click_cords
                         if click_cords in white_piece_locations:
@@ -519,7 +519,7 @@ while playing:
                         white_options = check_possible_move_options(white_piece_structure, white_piece_locations, "white")
                         current_turn = 0
                         selected_piece = 200
-                        valid_moves = []
+                        possible_moves = []
 
     else:
         for event in pygame.event.get():
@@ -607,7 +607,7 @@ while playing:
                 white_options = check_possible_move_options(white_piece_structure, white_piece_locations, "white")
                 current_turn = 2
                 selected_piece = 200
-                valid_moves = []
+                possible_moves = []
                 piece_taken = False
             elif taker == "Black":
                 if taker_wins:
@@ -621,7 +621,7 @@ while playing:
                 white_options = check_possible_move_options(white_piece_structure, white_piece_locations, "white")
                 current_turn = 0
                 selected_piece = 200
-                valid_moves = []
+                possible_moves = []
 
                 taker_wins = None
                 piece_taken = False
