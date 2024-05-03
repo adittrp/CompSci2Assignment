@@ -200,7 +200,7 @@ def check_bishop_moves(piece_location, turn):
         opposition_list = white_piece_locations
 
     for i in range(4):  # up-right, up-left, down-right, down-left
-        path = True
+        more_moves_available = True
         iterations = 1
         if i == 0:
             x_increment = 1
@@ -214,15 +214,15 @@ def check_bishop_moves(piece_location, turn):
         else:
             x_increment = -1
             y_increment = 1
-        while path:
+        while more_moves_available:
             if (piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)) not in friends_list and 0 <= piece_location[0] + (iterations * x_increment) <= 7 and 0 <= piece_location[1] + (iterations * y_increment) <= 7:
                 available_moves.append((piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)))
 
                 if (piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)) in opposition_list:
-                    path = False
+                    more_moves_available = False
                 iterations += 1
             else:
-                path = False
+                more_moves_available = False
 
     return available_moves
 
@@ -259,7 +259,7 @@ def check_rook_moves(piece_location, turn):
 
     # Straight line movements
     for i in range(4):
-        path = True
+        more_moves_available = True
         iterations = 1
         if i == 0:
             x_increment = 0
@@ -273,15 +273,15 @@ def check_rook_moves(piece_location, turn):
         else:
             x_increment = -1
             y_increment = 0
-        while path:
+        while more_moves_available:
             if (piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)) not in friends_list and 0 <= piece_location[0] + (iterations * x_increment) <= 7 and 0 <= piece_location[1] + (iterations * y_increment) <= 7:
                 available_moves.append((piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)))
 
                 if (piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)) in opposition_list:
-                    path = False
+                    more_moves_available = False
                 iterations += 1
             else:
-                path = False
+                more_moves_available = False
     return available_moves
 
 
