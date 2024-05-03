@@ -91,10 +91,12 @@ chess_piece_health_and_damage = {
 
 # Draws important things that will show up before pieces
 def display_game():
+    # Display chessboard
     chessboard = pygame.image.load('files/chess board.png')
     window.blit(chessboard, (0, 0))
     pygame.draw.rect(window, 'gold', [720, 0, 380, window_height], 5)
 
+    # Display side box with status text to say whose turn it is
     pygame.draw.rect(window, 'gold', [720, 600, 380, 120], 5)
     status_text = ['White turn', 'White to move',
                    'Black turn', 'Black to move']
@@ -106,6 +108,7 @@ def display_game():
 
 # Draws the pieces in their designated spots
 def display_pieces():
+    # Based on the locations, use the single digit values and multiply them by each chess spots width/height (80)
     for i in range(len(black_piece_structure)):
         index = chess_piece_list.index(black_piece_structure[i])
         if black_piece_structure[i] == "pawn":
@@ -134,6 +137,7 @@ def check_possible_move_options(pieces, locations, turn):
     moves_list = []
     all_moves_list = []
 
+    # Find the name of the piece to call its function
     for i in range(len(pieces)):
         location = locations[i]
         piece = pieces[i]
@@ -160,6 +164,7 @@ def check_possible_move_options(pieces, locations, turn):
 def check_pawn_moves(piece_location, turn):
     available_moves = []
 
+    # Check the different possible moves for a pawn (1 up, 2 up if it's the first move, or diagonal to take a piece)
     if turn == "black":
         if (piece_location[0], piece_location[1] + 1) not in black_piece_locations and (piece_location[0], piece_location[1] + 1) not in white_piece_locations and piece_location[1] < 7:
             available_moves.append((piece_location[0], piece_location[1] + 1))
@@ -193,13 +198,14 @@ def check_bishop_moves(piece_location, turn):
     available_moves = []
 
     if turn == 'white':
-        opposition_list = black_piece_locations
-        friends_list = white_piece_locations
+        other_team_list = black_piece_locations
+        same_team_list = white_piece_locations
     else:
-        friends_list = black_piece_locations
-        opposition_list = white_piece_locations
+        same_team_list = black_piece_locations
+        other_team_list = white_piece_locations
 
-    for i in range(4):  # up-right, up-left, down-right, down-left
+    for i in range(4):
+        # Each iteration, check a different diagonal line path
         more_moves_available = True
         iterations = 1
         if i == 0:
@@ -214,11 +220,13 @@ def check_bishop_moves(piece_location, turn):
         else:
             x_increment = -1
             y_increment = 1
+
+        # As long as there are no obstacles in the way, add new spots in the line path into available_moves
         while more_moves_available:
-            if (piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)) not in friends_list and 0 <= piece_location[0] + (iterations * x_increment) <= 7 and 0 <= piece_location[1] + (iterations * y_increment) <= 7:
+            if (piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)) not in same_team_list and 0 <= piece_location[0] + (iterations * x_increment) <= 7 and 0 <= piece_location[1] + (iterations * y_increment) <= 7:
                 available_moves.append((piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)))
 
-                if (piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)) in opposition_list:
+                if (piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)) in other_team_list:
                     more_moves_available = False
                 iterations += 1
             else:
@@ -232,15 +240,16 @@ def check_knight_moves(piece_location, turn):
     available_moves = []
 
     if turn == 'white':
-        friends_list = white_piece_locations
+        same_team_list = white_piece_locations
     else:
-        friends_list = black_piece_locations
+        same_team_list = black_piece_locations
 
     # All 8 combinations of moves a knight can do
     available_paths = [(1, 2), (1, -2), (2, 1), (2, -1), (-1, 2), (-1, -2), (-2, 1), (-2, -1)]
     for i in range(8):
+        # Check each path and see if it is available
         check_move = (piece_location[0] + available_paths[i][0], piece_location[1] + available_paths[i][1])
-        if check_move not in friends_list and 0 <= check_move[0] <= 7 and 0 <= check_move[1] <= 7:
+        if check_move not in same_team_list and 0 <= check_move[0] <= 7 and 0 <= check_move[1] <= 7:
             available_moves.append(check_move)
 
     return available_moves
@@ -251,14 +260,15 @@ def check_rook_moves(piece_location, turn):
     available_moves = []
 
     if turn == 'white':
-        opposition_list = black_piece_locations
-        friends_list = white_piece_locations
+        other_team_list = black_piece_locations
+        same_team_list = white_piece_locations
     else:
-        friends_list = black_piece_locations
-        opposition_list = white_piece_locations
+        same_team_list = black_piece_locations
+        other_team_list = white_piece_locations
 
     # Straight line movements
     for i in range(4):
+        # Each iteration, check a different straight line path
         more_moves_available = True
         iterations = 1
         if i == 0:
@@ -273,11 +283,13 @@ def check_rook_moves(piece_location, turn):
         else:
             x_increment = -1
             y_increment = 0
+
+        # As long as there are no obstacles in the way, add new spots in the line path into available_moves
         while more_moves_available:
-            if (piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)) not in friends_list and 0 <= piece_location[0] + (iterations * x_increment) <= 7 and 0 <= piece_location[1] + (iterations * y_increment) <= 7:
+            if (piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)) not in same_team_list and 0 <= piece_location[0] + (iterations * x_increment) <= 7 and 0 <= piece_location[1] + (iterations * y_increment) <= 7:
                 available_moves.append((piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)))
 
-                if (piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)) in opposition_list:
+                if (piece_location[0] + (iterations * x_increment), piece_location[1] + (iterations * y_increment)) in other_team_list:
                     more_moves_available = False
                 iterations += 1
             else:
@@ -289,6 +301,7 @@ def check_rook_moves(piece_location, turn):
 def check_queen_moves(piece_location, turn):
     available_moves = []
 
+    # Simply use the bishop and rook checks as a queen is a combination
     available_moves = check_bishop_moves(piece_location, turn)
     moves_list_rook = check_rook_moves(piece_location, turn)
     for i in range(len(moves_list_rook)):
@@ -302,16 +315,17 @@ def check_king_moves(piece_location, turn):
     available_moves = []
 
     if turn == 'white':
-        friends_list = white_piece_locations
+        same_team_list = white_piece_locations
     else:
-        friends_list = black_piece_locations
+        same_team_list = black_piece_locations
 
     # Only 8 spots to check for
-    targets = [(1, 0), (1, 1), (1, -1), (-1, 0), (-1, 1), (-1, -1), (0, 1), (0, -1)]
+    possible_king_moves = [(1, 0), (1, 1), (1, -1), (-1, 0), (-1, 1), (-1, -1), (0, 1), (0, -1)]
     for i in range(8):
-        target = (piece_location[0] + targets[i][0], piece_location[1] + targets[i][1])
-        if target not in friends_list and 0 <= target[0] <= 7 and 0 <= target[1] <= 7:
-            available_moves.append(target)
+        # Check if each of these spots are even open
+        move = (piece_location[0] + possible_king_moves[i][0], piece_location[1] + possible_king_moves[i][1])
+        if move not in same_team_list and 0 <= move[0] <= 7 and 0 <= move[1] <= 7:
+            available_moves.append(move)
 
     return available_moves
 
@@ -323,18 +337,20 @@ def check_possible_moves():
     else:
         options_list = black_options
 
+    # Find the possible options to draw them for a single piece
     possible_options = options_list[selected_piece]
     return possible_options
 
 
-# Draw possible moves onto the window
+# Display possible moves onto the window
 def draw_possible_moves(moves_possible):
+    # Draw each possible move based on who is selected using gray circles
     for i in range(len(moves_possible)):
         pygame.draw.circle(window, "gray", (moves_possible[i][0] * 80 + 80, moves_possible[i][1] * 80 + 80), 5)
 
 
-# Draw captured pieces
-def draw_captured_pieces():
+# Display captured pieces
+def display_captured_pieces():
     pygame.draw.line(window, 'black', (910, 5), (910, 600), 10)
     for i in range(len(white_captured_pieces)):
         captured_piece = white_captured_pieces[i]
@@ -358,13 +374,14 @@ check_counter = 0
 
 
 # King in check
-def draw_check():
+def display_check():
     checked = False
     if current_turn < 2:
         if "king" in white_piece_structure:
             king_index = white_piece_structure.index("king")
             king_location = white_piece_locations[king_index]
 
+            # Use a counter to flash a dark red square around the king
             for i in range(len(black_options)):
                 if king_location in black_options[i]:
                     if check_counter < 15:
@@ -374,10 +391,12 @@ def draw_check():
             king_index = white_piece_structure.index("king")
             king_location = black_piece_locations[king_index]
 
+            # Use a counter to flash a dark red square around the king
             for i in range(len(white_options)):
                 if king_location in white_options[i]:
                     if check_counter < 15:
                         pygame.draw.rect(window, "dark red", (black_piece_locations[king_index][0] * 80 + 40, black_piece_locations[king_index][1] * 80 + 40, 80, 80), 5)
+
 
 # Call the check_options function
 black_options = check_possible_move_options(black_piece_structure, black_piece_locations, "black")
@@ -445,10 +464,11 @@ while playing:
         # Call functions
         display_game()
         display_pieces()
-        draw_captured_pieces()
+        display_captured_pieces()
 
-        draw_check()
+        display_check()
 
+        # If selected piece is not 200, it means that there is actually a piece selected
         if selected_piece != 200:
             possible_moves = check_possible_moves()
             draw_possible_moves(possible_moves)
@@ -577,6 +597,7 @@ while playing:
         if not player2Block1 and not player2Attack1:
             boxer2.idle()
 
+        # Update and display health text
         boxer1.update_health(font, window, 100, 0)
         boxer2.update_health(font, window, 425, 720)
 
