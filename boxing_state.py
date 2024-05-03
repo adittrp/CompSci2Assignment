@@ -20,7 +20,7 @@ class Boxer:
         self.health = health_amt
 
     def attack(self, other_boxer):
-        boxing = play_attack_animation(self.attack_anim_1, self.value, self.window, self.x, self.y, 0.25)
+        boxing = play_attack_animation(self.attack_anim_1, self.value, self.window, self.x, self.y, 0.3)
 
         self.value = boxing[2]
         if not boxing[1]:
@@ -41,7 +41,7 @@ class Boxer:
 
     def defend(self):
         if self.build_up_block:
-            boxing = play_attack_animation(self.block_anim_1, self.value, self.window, self.x, self.y, 0.3)
+            boxing = play_attack_animation(self.block_anim_1, self.value, self.window, self.x, self.y, 0.35)
 
             self.value = boxing[2]
             if not boxing[1]:
