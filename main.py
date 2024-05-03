@@ -1,18 +1,20 @@
+# Import important files and libraries
 import boxing_state
 
 import pygame
 pygame.init()
 
+# Dimensions for window
 window_width = 1100
 window_height = 720
 
-
+# Create the window and fonts for later on
 window = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption('Chess Boxing!')
 font = pygame.font.SysFont('freesansbold.ttf', 60)
-font_small = pygame.font.SysFont('freesansbold.ttf', 25)
+small_font = pygame.font.SysFont('freesansbold.ttf', 25)
 
-# Set up
+# Set up piece structure, the main way to detect where each piece is, the health and damage of each piece, and the list to store captured pieces
 white_piece_structure = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook",
                 "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"]
 white_health_and_damage = [(100, 10), (75, 15), (75, 15), (100, 20), (150, 10), (75, 15), (75, 15), (100, 10),
@@ -29,11 +31,12 @@ black_piece_locations = [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0),
                    (0, 1), (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1)]
 black_captured_pieces = []
 
+# More set up for future gameplay
 current_turn = 0
 selected_piece = 200
 possible_moves = []
 
-# game pieces
+# Game pieces loaded in
 white_pawn = pygame.image.load("files/WhitePawn.png")
 white_pawn = pygame.transform.scale(white_pawn, (65, 65))
 
@@ -75,6 +78,7 @@ black_images = [black_pawn, black_bishop, black_knight, black_rook, black_queen,
 
 chess_piece_list = ["pawn", "bishop", "knight", "rook", "queen", "king"]
 
+# Health and damage for each of the piece types
 chess_piece_health_and_damage = {
     "pawn": (75, 10),
     "bishop": (75, 15),
@@ -125,7 +129,7 @@ def display_pieces():
                 pygame.draw.rect(window, "red", [white_piece_locations[i][0] * 80 + 40, white_piece_locations[i][1] * 80 + 40, 80, 80], 2)
 
 
-# Checks all possible options to move
+# Checks all possible options to move by checking the type of piece and calling its function
 def check_possible_move_options(pieces, locations, turn):
     moves_list = []
     all_moves_list = []
@@ -375,7 +379,7 @@ def draw_check():
                     if check_counter < 15:
                         pygame.draw.rect(window, "dark red", (black_piece_locations[king_index][0] * 80 + 40, black_piece_locations[king_index][1] * 80 + 40, 80, 80), 5)
 
-
+# Call the check_options function
 black_options = check_possible_move_options(black_piece_structure, black_piece_locations, "black")
 white_options = check_possible_move_options(white_piece_structure, white_piece_locations, "white")
 
@@ -391,8 +395,7 @@ taker = None
 taker_wins = None
 original_selection = None
 
-attack_start = False
-
+# Bools to check if each attack/block situation is active
 player1Attack1 = False
 player1Block1 = False
 
@@ -419,7 +422,8 @@ black_piece_animation = {
     "king": ()
 }
 
-player1AttackAnimation1 = ["Files/Player1Attack1/Player1Attack1Image1.png", "Files/Player1Attack1/Player1Attack1Image2.png", "Files/Player1Attack1/Player1Attack1Image3.png","Files/Player1Attack1/Player1Attack1Image4.png"]
+# Animation sprites for each block/attack
+player1AttackAnimation1 = ["Files/Player1Attack1/Player1Attack1Image1.png", "Files/Player1Attack1/Player1Attack1Image2.png", "Files/Player1Attack1/Player1Attack1Image3.png", "Files/Player1Attack1/Player1Attack1Image4.png"]
 player1BlockAnimation1 = ["Files/Player1Block1/Player1Block1Image1.png", "Files/Player1Block1/Player1Block1Image2.png"]
 
 player2AttackAnimation1 = ["Files/Player2Attack1/Player2Attack1Image1.png", "Files/Player2Attack1/Player2Attack1Image2.png", "Files/Player2Attack1/Player2Attack1Image3.png", "Files/Player2Attack1/Player2Attack1Image4.png"]
@@ -436,6 +440,7 @@ while playing:
 
     window.fill("gray")
 
+    # Chess game-state
     if not piece_taken:
         # Call functions
         display_game()
@@ -452,6 +457,7 @@ while playing:
             if event.type == pygame.QUIT:
                 playing = False
 
+            # Check if any player had selected a piece or a new spot to move to
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 x_coord = (event.pos[0] - 40) // 80
                 y_coord = (event.pos[1] - 40) // 80
@@ -468,6 +474,7 @@ while playing:
                         original_selection = white_piece_locations[selected_piece]
                         white_piece_locations[selected_piece] = click_cords
                         if click_cords in black_piece_locations:
+                            # Move to boxing game-state after creating the 2 boxing classes
                             white_piece_name = white_piece_structure[selected_piece]
                             black_piece_name = black_piece_structure[black_piece_locations.index(click_cords)]
 
@@ -500,6 +507,7 @@ while playing:
                         original_selection = black_piece_locations[selected_piece]
                         black_piece_locations[selected_piece] = click_cords
                         if click_cords in white_piece_locations:
+                            # Move to boxing game-state after creating the 2 boxing classes
                             black_piece_name = black_piece_structure[selected_piece]
                             white_piece_name = white_piece_structure[white_piece_locations.index(click_cords)]
 
@@ -520,8 +528,9 @@ while playing:
                         current_turn = 0
                         selected_piece = 200
                         possible_moves = []
-
+    # Boxing game-state
     else:
+        # Check key presses
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 playing = False
@@ -548,10 +557,12 @@ while playing:
                     player2Block1 = False
                     boxer2.reset_block_bool()
 
+        # Display atmosphere for game-state
         boxing_ring = pygame.image.load("files/BoxingRing.png")
         boxing_ring = pygame.transform.scale(boxing_ring, (1100, 720))
         window.blit(boxing_ring, (0, 0))
 
+        # Check and call functions for attacks and blocks or idle
         if player1Attack1:
             player1Attack1 = boxer1.attack(boxer2)
         elif player1Block1:
@@ -575,13 +586,14 @@ while playing:
         text_to_render = ["Controls (WASD and Arrow keys):", "Player 1: W for High Attack, A for High Block", "Player 2: ^ for High Attack, < for High Block"]
 
         for text in text_to_render:
-            render = font_small.render(text, True, 'black')
+            render = small_font.render(text, True, 'black')
             text_rect = render.get_rect(center=(550, 25 + (text_to_render.index(text) * 35)))
             window.blit(render, text_rect)
 
         boxer1_lose = boxer1.check_health()
         boxer2_lose = boxer2.check_health()
 
+        # Check who had lost
         if boxer1_lose or boxer2_lose:
             if taker == "White":
                 if boxer1_lose:
@@ -594,7 +606,9 @@ while playing:
                 if boxer2_lose:
                     taker_wins = False
 
+        # Once one player loses
         if taker_wins is not None:
+            # Depending on who won, either go through with the move or just return without taking the piece
             if taker == "White":
                 if taker_wins:
                     black_piece = black_piece_locations.index(click_cords)
@@ -625,8 +639,6 @@ while playing:
 
                 taker_wins = None
                 piece_taken = False
-
-
 
     pygame.display.update()
 
