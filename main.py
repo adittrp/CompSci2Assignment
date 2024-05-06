@@ -17,16 +17,16 @@ small_font = pygame.font.SysFont('freesansbold.ttf', 25)
 # Set up piece structure, the main way to detect where each piece is, the health and damage of each piece, and the list to store captured pieces
 white_piece_structure = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook",
                 "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"]
-white_health_and_damage = [(100, 10), (75, 15), (75, 15), (100, 20), (150, 10), (75, 15), (75, 15), (100, 10),
-                           (75, 10), (75, 10), (75, 10), (75, 10), (75, 10), (75, 10), (75, 10), (75, 10)]
+white_health_and_damage = [[100, 10], [75, 15], [75, 15], [100, 20], [150, 10], [75, 15], [75, 15], [100, 10],
+                           [75, 10], [75, 10], [75, 10], [75, 10], [75, 10], [75, 10], [75, 10], [75, 10]]
 white_piece_locations = [(0, 7), (1, 7), (2, 7), (3, 7), (4, 7), (5, 7), (6, 7), (7, 7),
                    (0, 6), (1, 6), (2, 6), (3, 6), (4, 6), (5, 6), (6, 6), (7, 6)]
 white_captured_pieces = []
 
 black_piece_structure = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook",
                 "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"]
-black_health_and_damage = [(100, 10), (75, 15), (75, 15), (100, 20), (150, 10), (75, 15), (75, 15), (100, 10),
-                           (75, 10), (75, 10), (75, 10), (75, 10), (75, 10), (75, 10), (75, 10), (75, 10)]
+black_health_and_damage = [[100, 10], [75, 15], [75, 15], [100, 20], [150, 10], [75, 15], [75, 15], [100, 10],
+                           [75, 10], [75, 10], [75, 10], [75, 10], [75, 10], [75, 10], [75, 10], [75, 10]]
 black_piece_locations = [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0),
                    (0, 1), (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1)]
 black_captured_pieces = []
@@ -498,8 +498,8 @@ while playing:
                             white_piece_name = white_piece_structure[selected_piece]
                             black_piece_name = black_piece_structure[black_piece_locations.index(click_cords)]
 
-                            boxer1 = boxing_state.Boxer(window, 100, 200, player1AttackAnimation1, player1BlockAnimation1, chess_piece_health_and_damage[white_piece_name][1], chess_piece_health_and_damage[white_piece_name][0])
-                            boxer2 = boxing_state.Boxer(window, 500, 200, player2AttackAnimation1, player2BlockAnimation1, chess_piece_health_and_damage[black_piece_name][1], chess_piece_health_and_damage[black_piece_name][0])
+                            boxer1 = boxing_state.Boxer(window, 100, 200, player1AttackAnimation1, player1BlockAnimation1, white_health_and_damage[selected_piece][1], white_health_and_damage[selected_piece][0], index_to_change=selected_piece)
+                            boxer2 = boxing_state.Boxer(window, 500, 200, player2AttackAnimation1, player2BlockAnimation1, black_health_and_damage[black_piece_locations.index(click_cords)][1], black_health_and_damage[black_piece_locations.index(click_cords)][0])
 
                             player1Attack1 = False
                             player2Attack1 = False
@@ -531,8 +531,8 @@ while playing:
                             black_piece_name = black_piece_structure[selected_piece]
                             white_piece_name = white_piece_structure[white_piece_locations.index(click_cords)]
 
-                            boxer1 = boxing_state.Boxer(window, 100, 200, player1AttackAnimation1, player1BlockAnimation1, chess_piece_health_and_damage[white_piece_name][1], chess_piece_health_and_damage[white_piece_name][0])
-                            boxer2 = boxing_state.Boxer(window, 500, 200, player2AttackAnimation1, player2BlockAnimation1, chess_piece_health_and_damage[black_piece_name][1], chess_piece_health_and_damage[black_piece_name][0])
+                            boxer1 = boxing_state.Boxer(window, 100, 200, player1AttackAnimation1, player1BlockAnimation1, white_health_and_damage[white_piece_locations.index(click_cords)][1], white_health_and_damage[white_piece_locations.index(click_cords)][0])
+                            boxer2 = boxing_state.Boxer(window, 500, 200, player2AttackAnimation1, player2BlockAnimation1, black_health_and_damage[selected_piece][1], black_health_and_damage[selected_piece][0], index_to_change=selected_piece)
 
                             player1Attack1 = False
                             player2Attack1 = False
@@ -597,6 +597,8 @@ while playing:
         if not player2Block1 and not player2Attack1:
             boxer2.idle()
 
+        print(white_health_and_damage)
+
         # Update and display health text
         boxer1.update_health(font, window, 100, 0)
         boxer2.update_health(font, window, 425, 720)
@@ -619,13 +621,19 @@ while playing:
             if taker == "White":
                 if boxer1_lose:
                     taker_wins = False
+                    white_health_and_damage[boxer1.index_to_change][0] /= 2
+                    white_health_and_damage[boxer1.index_to_change][0] = int(white_health_and_damage[boxer1.index_to_change][0])
                 if boxer2_lose:
+                    white_health_and_damage[boxer1.index_to_change][0] = boxer1.health
                     taker_wins = True
             elif taker == "Black":
                 if boxer1_lose:
                     taker_wins = True
+                    black_health_and_damage[boxer2.index_to_change][0] = boxer2.health
                 if boxer2_lose:
                     taker_wins = False
+                    black_health_and_damage[boxer2.index_to_change][0] /= 2
+                    black_health_and_damage[boxer2.index_to_change][0] = int(black_health_and_damage[boxer2.index_to_change][0])
 
         # Once one player loses
         if taker_wins is not None:
