@@ -475,6 +475,9 @@ while playing:
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+
+                with open("saved_info.txt", "a") as saved_info_file:
+                    saved_info_file.write("DNF, DNF\n")
                 playing = False
 
             # Check if any player had selected a piece or a new spot to move to
@@ -553,6 +556,8 @@ while playing:
         # Check key presses
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                with open("saved_info.txt", "a") as saved_info_file:
+                    saved_info_file.write("DNF, DNF\n")
                 playing = False
 
             if event.type == pygame.KEYDOWN:
@@ -597,8 +602,6 @@ while playing:
         if not player2Block1 and not player2Attack1:
             boxer2.idle()
 
-        print(white_health_and_damage)
-
         # Update and display health text
         boxer1.update_health(font, window, 100, 0)
         boxer2.update_health(font, window, 425, 720)
@@ -621,19 +624,19 @@ while playing:
             if taker == "White":
                 if boxer1_lose:
                     taker_wins = False
-                    white_health_and_damage[boxer1.index_to_change][0] /= 2
-                    white_health_and_damage[boxer1.index_to_change][0] = int(white_health_and_damage[boxer1.index_to_change][0])
+                    new_health = white_health_and_damage[boxer1.index_to_change][0] / 2
+                    white_health_and_damage[boxer1.index_to_change][0] = int(new_health)
                 if boxer2_lose:
                     white_health_and_damage[boxer1.index_to_change][0] = boxer1.health
                     taker_wins = True
             elif taker == "Black":
                 if boxer1_lose:
                     taker_wins = True
-                    black_health_and_damage[boxer2.index_to_change][0] = boxer2.health
+                    black_health_and_damage[boxer1.index_to_change][0] = boxer2.health
                 if boxer2_lose:
                     taker_wins = False
-                    black_health_and_damage[boxer2.index_to_change][0] /= 2
-                    black_health_and_damage[boxer2.index_to_change][0] = int(black_health_and_damage[boxer2.index_to_change][0])
+                    new_health = black_health_and_damage[boxer2.index_to_change][0] / 2
+                    black_health_and_damage[boxer2.index_to_change][0] = int(new_health)
 
         # Once one player loses
         if taker_wins is not None:
@@ -644,6 +647,7 @@ while playing:
                     white_captured_pieces.append(black_piece_structure[black_piece])
                     black_piece_structure.pop(black_piece)
                     black_piece_locations.pop(black_piece)
+                    black_health_and_damage.pop(black_piece)
                 else:
                     white_piece_locations[selected_piece] = original_selection
                 black_options = check_possible_move_options(black_piece_structure, black_piece_locations, "black")
@@ -658,6 +662,7 @@ while playing:
                     black_captured_pieces.append(white_piece_structure[white_piece])
                     white_piece_structure.pop(white_piece)
                     white_piece_locations.pop(white_piece)
+                    white_health_and_damage.pop(white_piece)
                 else:
                     black_piece_locations[selected_piece] = original_selection
                 black_options = check_possible_move_options(black_piece_structure, black_piece_locations, "black")
