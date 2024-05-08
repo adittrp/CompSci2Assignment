@@ -8,6 +8,10 @@ pygame.init()
 window_width = 1100
 window_height = 720
 
+# Bool for if either king is dead
+white_king_alive = True
+black_king_alive = True
+
 # Create the window and fonts for later on
 window = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption('Chess Boxing!')
@@ -398,6 +402,21 @@ def display_check():
                         pygame.draw.rect(window, "dark red", (black_piece_locations[king_index][0] * 80 + 40, black_piece_locations[king_index][1] * 80 + 40, 80, 80), 5)
 
 
+def check_king_death():
+    white_king_not_dead = False
+    black_king_not_dead = False
+
+    for piece in white_piece_structure:
+        if piece == "king":
+            white_king_not_dead = True
+            break
+    for piece in black_piece_structure:
+        if piece == "king":
+            black_king_not_dead = True
+            break
+
+    return white_king_not_dead, black_king_not_dead
+
 # Call the check_options function
 black_options = check_possible_move_options(black_piece_structure, black_piece_locations, "black")
 white_options = check_possible_move_options(white_piece_structure, white_piece_locations, "white")
@@ -632,7 +651,7 @@ while playing:
             elif taker == "Black":
                 if boxer1_lose:
                     taker_wins = True
-                    black_health_and_damage[boxer1.index_to_change][0] = boxer2.health
+                    black_health_and_damage[boxer2.index_to_change][0] = boxer2.health
                 if boxer2_lose:
                     taker_wins = False
                     new_health = black_health_and_damage[boxer2.index_to_change][0] / 2
@@ -673,6 +692,54 @@ while playing:
 
                 taker_wins = None
                 piece_taken = False
+
+            white_king_alive, black_king_alive = check_king_death()
+
+            if not white_king_alive or not black_king_alive:
+                if not black_king_alive:
+                    with open("saved_info.txt", "a") as saved_info_file:
+                        saved_info_file.write("Win, Lose\n")
+                elif not white_king_alive:
+                    with open("saved_info.txt", "a") as saved_info_file:
+                        saved_info_file.write("Lose, Win\n")
+                playing = False
+
+    pygame.display.update()
+
+while not white_king_alive or not black_king_alive:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            white_king_alive = True
+            black_king_alive = True
+
+    window.fill("black")
+
+    pygame.draw.rect(window, 'gold', [720, 0, 380, window_height], 5)
+    pygame.draw.rect(window, 'gold', [720, 600, 380, 120], 5)
+
+    with open("saved_info.txt", "r") as saved_info_file:
+        reader = saved_info_file.readlines()
+        player1_wins = 0
+        player2_wins = 0
+        for line in reader:
+            line_split = line.split(", ")
+            if line_split[0] == "Win":
+                player1_wins += 1
+            elif line_split[1] == "Win":
+                player2_wins += 1
+
+        if not black_king_alive:
+            texts = ["The Black King has been defeated! ", "Player 1 is the winner! ", "Player 1 now has " + str(player1_wins) + " wins! ", "Press Space to reset the game from ",  "scratch or simply exit the game."]
+            for i in range(len(texts)):
+                text = font.render(texts[i], True, 'White')
+                text_rect = text.get_rect(center=(560, 250 + 50*i))
+                window.blit(text, text_rect)
+        if not white_king_alive:
+            texts = ["The White King has been defeated! ", "Player 2 is the winner! ", "Player 2 now has " + str(player2_wins) + " wins! ", "Press Space to reset the game from ", "scratch or simply exit the game."]
+            for i in range(len(texts)):
+                text = font.render(texts[i], True, 'White')
+                text_rect = text.get_rect(center=(560, 250 + 50*i))
+                window.blit(text, text_rect)
 
     pygame.display.update()
 
