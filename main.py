@@ -391,8 +391,8 @@ def display_check():
                     if check_counter < 15:
                         pygame.draw.rect(window, "dark red", (white_piece_locations[king_index][0] * 80 + 40, white_piece_locations[king_index][1] * 80 + 40, 80, 80), 5)
     else:
-        if "king" in white_piece_structure:
-            king_index = white_piece_structure.index("king")
+        if "king" in black_piece_structure:
+            king_index = black_piece_structure.index("king")
             king_location = black_piece_locations[king_index]
 
             # Use a counter to flash a dark red square around the king
@@ -427,6 +427,11 @@ frames_per_second = 60
 
 # Boxing-State check
 piece_taken = False
+
+# Get time for cooldowns
+time_now = 0
+player_1_last_attack = 0
+player_2_last_attack = 0
 
 # Taker wins boxing or taken wins
 taker = None
@@ -580,12 +585,16 @@ while playing:
                 playing = False
 
             if event.type == pygame.KEYDOWN:
+                time_now = pygame.time.get_ticks()
+
                 if event.key == pygame.K_q:
                     taker_wins = False
 
-                if event.key == pygame.K_w and not player1Block1:
+                if event.key == pygame.K_w and not player1Block1 and time_now - player_1_last_attack > 1100:
+                    player_1_last_attack = pygame.time.get_ticks()
                     player1Attack1 = True
-                if event.key == pygame.K_UP and not player2Block1:
+                if event.key == pygame.K_UP and not player2Block1 and time_now - player_2_last_attack > 1100:
+                    player_2_last_attack = pygame.time.get_ticks()
                     player2Attack1 = True
 
                 if event.key == pygame.K_a:
@@ -714,8 +723,8 @@ while not white_king_alive or not black_king_alive:
 
     window.fill("black")
 
-    pygame.draw.rect(window, 'gold', [720, 0, 380, window_height], 5)
-    pygame.draw.rect(window, 'gold', [720, 600, 380, 120], 5)
+    pygame.draw.rect(window, 'light gray', [175, 120, 800, 400], 240)
+    pygame.draw.rect(window, 'gold', [175, 120, 800, 400], 5)
 
     with open("saved_info.txt", "r") as saved_info_file:
         reader = saved_info_file.readlines()
@@ -723,22 +732,23 @@ while not white_king_alive or not black_king_alive:
         player2_wins = 0
         for line in reader:
             line_split = line.split(", ")
+
             if line_split[0] == "Win":
                 player1_wins += 1
-            elif line_split[1] == "Win":
+            elif line_split[1] == "Win\n":
                 player2_wins += 1
 
         if not black_king_alive:
             texts = ["The Black King has been defeated! ", "Player 1 is the winner! ", "Player 1 now has " + str(player1_wins) + " wins! ", "Press Space to reset the game from ",  "scratch or simply exit the game."]
             for i in range(len(texts)):
                 text = font.render(texts[i], True, 'White')
-                text_rect = text.get_rect(center=(560, 250 + 50*i))
+                text_rect = text.get_rect(center=(550, 250 + 50*i))
                 window.blit(text, text_rect)
         if not white_king_alive:
             texts = ["The White King has been defeated! ", "Player 2 is the winner! ", "Player 2 now has " + str(player2_wins) + " wins! ", "Press Space to reset the game from ", "scratch or simply exit the game."]
             for i in range(len(texts)):
                 text = font.render(texts[i], True, 'White')
-                text_rect = text.get_rect(center=(560, 250 + 50*i))
+                text_rect = text.get_rect(center=(550, 250 + 50*i))
                 window.blit(text, text_rect)
 
     pygame.display.update()

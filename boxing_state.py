@@ -25,7 +25,7 @@ class Boxer:
 
     # Definition to play the attack animation
     def attack(self, other_boxer):
-        boxing = play_animation(self.attack_anim_1, self.value, self.window, self.x, self.y, 0.3)
+        boxing = play_animation(self.attack_anim_1, self.value, self.window, self.x, self.y, 0.25)
 
         # As long as the attack animation has not finished, the attack variable returns true and keeps displaying
         self.value = boxing[2]
@@ -34,7 +34,7 @@ class Boxer:
             if not other_boxer.blocking:
                 other_boxer.health -= self.attack_damage
             else:
-                other_boxer.health -= int(self.attack_damage/5)
+                other_boxer.health -= int(self.attack_damage/10)
 
             image = self.attack_anim_1[int(0)]
             attack = pygame.image.load(image)
@@ -49,7 +49,7 @@ class Boxer:
     def defend(self):
         # Until the block animation has actually gone to its last image, this will stay true and go through animation
         if self.build_up_block:
-            boxing = play_animation(self.block_anim_1, self.value, self.window, self.x, self.y, 0.35)
+            boxing = play_animation(self.block_anim_1, self.value, self.window, self.x, self.y, 0.4)
 
             self.value = boxing[2]
             if not boxing[1]:
