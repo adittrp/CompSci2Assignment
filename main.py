@@ -590,10 +590,10 @@ while playing:
                 if event.key == pygame.K_q:
                     taker_wins = False
 
-                if event.key == pygame.K_w and not player1Block1 and time_now - player_1_last_attack > 1100:
+                if event.key == pygame.K_w and not player1Block1 and time_now - player_1_last_attack > 1200:
                     player_1_last_attack = pygame.time.get_ticks()
                     player1Attack1 = True
-                if event.key == pygame.K_UP and not player2Block1 and time_now - player_2_last_attack > 1100:
+                if event.key == pygame.K_UP and not player2Block1 and time_now - player_2_last_attack > 1200:
                     player_2_last_attack = pygame.time.get_ticks()
                     player2Attack1 = True
 
