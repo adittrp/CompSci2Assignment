@@ -711,45 +711,78 @@ while playing:
                 elif not white_king_alive:
                     with open("saved_info.txt", "a") as saved_info_file:
                         saved_info_file.write("Lose, Win\n")
-                playing = False
 
-    pygame.display.update()
+                while not white_king_alive or not black_king_alive:
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            white_king_alive = True
+                            black_king_alive = True
+                            playing = False
 
-while not white_king_alive or not black_king_alive:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            white_king_alive = True
-            black_king_alive = True
+                        if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_SPACE:
+                                # Reset game
+                                white_piece_structure = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook",
+                                                         "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"]
+                                white_health_and_damage = [[100, 10], [75, 15], [75, 15], [100, 20], [150, 10], [75, 15], [75, 15], [100, 10],
+                                                           [75, 10], [75, 10], [75, 10], [75, 10], [75, 10], [75, 10], [75, 10], [75, 10]]
+                                white_piece_locations = [(0, 7), (1, 7), (2, 7), (3, 7), (4, 7), (5, 7), (6, 7), (7, 7),
+                                                         (0, 6), (1, 6), (2, 6), (3, 6), (4, 6), (5, 6), (6, 6), (7, 6)]
+                                white_captured_pieces = []
 
-    window.fill("black")
+                                black_piece_structure = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook",
+                                                         "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"]
+                                black_health_and_damage = [[100, 10], [75, 15], [75, 15], [100, 20], [150, 10], [75, 15], [75, 15], [100, 10],
+                                                           [75, 10], [75, 10], [75, 10], [75, 10], [75, 10], [75, 10], [75, 10], [75, 10]]
+                                black_piece_locations = [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0),
+                                                         (0, 1), (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1)]
+                                black_captured_pieces = []
 
-    pygame.draw.rect(window, 'light gray', [175, 120, 800, 400], 240)
-    pygame.draw.rect(window, 'gold', [175, 120, 800, 400], 5)
+                                current_turn = 0
+                                selected_piece = 200
+                                possible_moves = []
 
-    with open("saved_info.txt", "r") as saved_info_file:
-        reader = saved_info_file.readlines()
-        player1_wins = 0
-        player2_wins = 0
-        for line in reader:
-            line_split = line.split(", ")
+                                white_options = check_possible_move_options(white_piece_structure, white_piece_locations, "white")
+                                black_options = check_possible_move_options(black_piece_structure, black_piece_locations, "black")
 
-            if line_split[0] == "Win":
-                player1_wins += 1
-            elif line_split[1] == "Win\n":
-                player2_wins += 1
+                                white_king_alive = True
+                                black_king_alive = True
 
-        if not black_king_alive:
-            texts = ["The Black King has been defeated! ", "Player 1 is the winner! ", "Player 1 now has " + str(player1_wins) + " wins! ", "Press Space to reset the game from ",  "scratch or simply exit the game."]
-            for i in range(len(texts)):
-                text = font.render(texts[i], True, 'White')
-                text_rect = text.get_rect(center=(550, 250 + 50*i))
-                window.blit(text, text_rect)
-        if not white_king_alive:
-            texts = ["The White King has been defeated! ", "Player 2 is the winner! ", "Player 2 now has " + str(player2_wins) + " wins! ", "Press Space to reset the game from ", "scratch or simply exit the game."]
-            for i in range(len(texts)):
-                text = font.render(texts[i], True, 'White')
-                text_rect = text.get_rect(center=(550, 250 + 50*i))
-                window.blit(text, text_rect)
+                    window.fill("black")
+
+                    pygame.draw.rect(window, 'light gray', [175, 120, 800, 400], 240)
+                    pygame.draw.rect(window, 'gold', [175, 120, 800, 400], 5)
+
+                    with open("saved_info.txt", "r") as saved_info_file:
+                        reader = saved_info_file.readlines()
+                        player1_wins = 0
+                        player2_wins = 0
+                        for line in reader:
+                            line_split = line.split(", ")
+
+                            if line_split[0] == "Win":
+                                player1_wins += 1
+                            elif line_split[1] == "Win\n":
+                                player2_wins += 1
+
+                        if not black_king_alive:
+                            texts = ["The Black King has been defeated! ", "Player 1 is the winner! ",
+                                     "Player 1 now has " + str(player1_wins) + " wins! ",
+                                     "Press Space to reset the game from ", "scratch or simply exit the game."]
+                            for i in range(len(texts)):
+                                text = font.render(texts[i], True, 'White')
+                                text_rect = text.get_rect(center=(550, 250 + 50 * i))
+                                window.blit(text, text_rect)
+                        if not white_king_alive:
+                            texts = ["The White King has been defeated! ", "Player 2 is the winner! ",
+                                     "Player 2 now has " + str(player2_wins) + " wins! ",
+                                     "Press Space to reset the game from ", "scratch or simply exit the game."]
+                            for i in range(len(texts)):
+                                text = font.render(texts[i], True, 'White')
+                                text_rect = text.get_rect(center=(550, 250 + 50 * i))
+                                window.blit(text, text_rect)
+
+                    pygame.display.update()
 
     pygame.display.update()
 
