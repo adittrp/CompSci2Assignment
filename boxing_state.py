@@ -5,14 +5,14 @@ import pygame
 # Main class to define boxer
 class Boxer:
     # Initialization that defines alot of variables, piece_taker checks if the boxer is taking the piece
-    def __init__(self, window, x, y, attack_animation1, block_animation1, attack_amt, health_amt, index_to_change=None):
+    def __init__(self, window, x, y, attack_animation, block_animation1, attack_amt, health_amt, index_to_change=None):
         self.window = window
         self.x = x
         self.y = y
         self.value = 0
-        self.idle_anim = attack_animation1[0]
-        self.attack_anim_1 = attack_animation1
-        self.block_anim_1 = block_animation1
+        self.idle_anim = attack_animation[0]
+        self.attack_anim = attack_animation
+        self.block_anim = block_animation1
 
         self.index_to_change = index_to_change
 
@@ -25,7 +25,7 @@ class Boxer:
 
     # Definition to play the attack animation
     def attack(self, other_boxer):
-        boxing = play_animation(self.attack_anim_1, self.value, self.window, self.x, self.y, 0.25)
+        boxing = play_animation(self.attack_anim, self.value, self.window, self.x, self.y, 0.25)
 
         # As long as the attack animation has not finished, the attack variable returns true and keeps displaying
         self.value = boxing[2]
@@ -36,7 +36,7 @@ class Boxer:
             else:
                 other_boxer.health -= int(self.attack_damage/10)
 
-            image = self.attack_anim_1[int(0)]
+            image = self.attack_anim[int(0)]
             attack = pygame.image.load(image)
             attack = pygame.transform.scale(attack, (500, 500))
             self.window.blit(attack, (self.x, self.y))
@@ -49,18 +49,18 @@ class Boxer:
     def defend(self):
         # Until the block animation has actually gone to its last image, this will stay true and go through animation
         if self.build_up_block:
-            boxing = play_animation(self.block_anim_1, self.value, self.window, self.x, self.y, 0.4)
+            boxing = play_animation(self.block_anim, self.value, self.window, self.x, self.y, 0.4)
 
             self.value = boxing[2]
             if not boxing[1]:
-                image = self.block_anim_1[int(-1)]
+                image = self.block_anim[int(-1)]
                 block = pygame.image.load(image)
                 block = pygame.transform.scale(block, (500, 500))
                 self.window.blit(block, (self.x, self.y))
                 self.build_up_block = False
         # Once the block animation has finished the player will stay in a block as long as they hold the button
         else:
-            image = self.block_anim_1[int(-1)]
+            image = self.block_anim[int(-1)]
             block = pygame.image.load(image)
             block = pygame.transform.scale(block, (500, 500))
             self.window.blit(block, (self.x, self.y))

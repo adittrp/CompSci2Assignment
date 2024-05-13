@@ -41,40 +41,40 @@ selected_piece = 200
 possible_moves = []
 
 # Game pieces loaded in
-white_pawn = pygame.image.load("files/WhitePawn.png")
+white_pawn = pygame.image.load("Files/Z)Images/WhitePawn.png")
 white_pawn = pygame.transform.scale(white_pawn, (65, 65))
 
-white_bishop = pygame.image.load("files/WhiteBishop.png")
+white_bishop = pygame.image.load("Files/Z)Images/WhiteBishop.png")
 white_bishop = pygame.transform.scale(white_bishop, (70, 70))
 
-white_knight = pygame.image.load("Files/WhiteKnight.png")
+white_knight = pygame.image.load("Files/Z)Images/WhiteKnight.png")
 white_knight = pygame.transform.scale(white_knight, (70, 70))
 
-white_rook = pygame.image.load("files/WhiteRook.png")
+white_rook = pygame.image.load("Files/Z)Images/WhiteRook.png")
 white_rook = pygame.transform.scale(white_rook, (70, 70))
 
-white_queen = pygame.image.load("files/WhiteQueen.png")
+white_queen = pygame.image.load("Files/Z)Images/WhiteQueen.png")
 white_queen = pygame.transform.scale(white_queen, (70, 70))
 
-white_king = pygame.image.load("files/WhiteKing.png")
+white_king = pygame.image.load("Files/Z)Images/WhiteKing.png")
 white_king = pygame.transform.scale(white_king, (70, 70))
 
-black_pawn = pygame.image.load("files/BlackPawn.png")
+black_pawn = pygame.image.load("Files/Z)Images/BlackPawn.png")
 black_pawn = pygame.transform.scale(black_pawn, (65, 65))
 
-black_bishop = pygame.image.load("files/BlackBishop.png")
+black_bishop = pygame.image.load("Files/Z)Images/BlackBishop.png")
 black_bishop = pygame.transform.scale(black_bishop, (70, 70))
 
-black_knight = pygame.image.load("files/BlackKnight.png")
+black_knight = pygame.image.load("Files/Z)Images/BlackKnight.png")
 black_knight = pygame.transform.scale(black_knight, (70, 70))
 
-black_rook = pygame.image.load("files/BlackRook.png")
+black_rook = pygame.image.load("Files/Z)Images/BlackRook.png")
 black_rook = pygame.transform.scale(black_rook, (70, 70))
 
-black_queen = pygame.image.load("files/BlackQueen.png")
+black_queen = pygame.image.load("Files/Z)Images/BlackQueen.png")
 black_queen = pygame.transform.scale(black_queen, (70, 70))
 
-black_king = pygame.image.load("files/BlackKing.png")
+black_king = pygame.image.load("Files/Z)Images/BlackKing.png")
 black_king = pygame.transform.scale(black_king, (70, 70))
 
 white_images = [white_pawn, white_bishop, white_knight, white_rook, white_queen, white_king]
@@ -96,7 +96,7 @@ chess_piece_health_and_damage = {
 # Draws important things that will show up before pieces
 def display_game():
     # Display chessboard
-    chessboard = pygame.image.load('files/chess board.png')
+    chessboard = pygame.image.load('Files/Z)Images/chess board.png')
     window.blit(chessboard, (0, 0))
     pygame.draw.rect(window, 'gold', [720, 0, 380, window_height], 5)
 
@@ -439,11 +439,49 @@ taker_wins = None
 original_selection = None
 
 # Bools to check if each attack/block situation is active
-player1Attack1 = False
-player1Block1 = False
+player1Attack = False
+player1Block = False
 
-player2Attack1 = False
-player2Block1 = False
+player2Attack = False
+player2Block = False
+
+# White Animations
+White_King_Attack = []
+White_King_Block = []
+
+White_Queen_Attack = ["Files/WhiteQueenAttack/WhiteQueenAttackImage1.png", "Files/WhiteQueenAttack/WhiteQueenAttackImage2.png", "Files/WhiteQueenAttack/WhiteQueenAttackImage3.png", "Files/WhiteQueenAttack/WhiteQueenAttackImage4.png"]
+White_Queen_Block = ["Files/Player1Block1/WhiteQueenAttackImage1.png", "Files/WhiteQueenBlock/WhiteQueenAttackImage2.png"]
+
+White_Rook_Attack = []
+White_Rook_Block = []
+
+White_Bishop_Attack = []
+White_Bishop_Block = []
+
+White_Knight_Attack = []
+White_Knight_Block = []
+
+White_Pawn_Attack = []
+White_Pawn_Block = []
+
+# Black Animations
+Black_King_Attack = []
+Black_King_Block = []
+
+Black_Queen_Attack = ["Files/BlackQueenAttack/BlackQueenAttackImage1.png", "Files/BlackQueenAttack/BlackQueenAttackImage2.png", "Files/BlackQueenAttack/BlackQueenAttackImage3.png", "Files/BlackQueenAttack/BlackQueenAttackImage4.png"]
+Black_Queen_Block = ["Files/BlackQueenBlock/BlackQueenAttackImage1.png", "Files/BlackQueenBlock/BlackQueenAttackImage2.png"]
+
+Black_Rook_Attack = []
+Black_Rook_Block = []
+
+Black_Bishop_Attack = []
+Black_Bishop_Block = []
+
+Black_Knight_Attack = []
+Black_Knight_Block = []
+
+Black_Pawn_Attack = []
+Black_Pawn_Block = []
 
 # First value is attack1, second value is block1, third value is attack2, fourth value is block2
 white_piece_animation = {
@@ -455,7 +493,7 @@ white_piece_animation = {
     "king": ()
 }
 
-# First value is attack1, second value is block1, third value is attack2, fourth value is block2
+# First value is attack, second value is block
 black_piece_animation = {
     "pawn": (),
     "bishop": (),
@@ -464,13 +502,6 @@ black_piece_animation = {
     "queen": (),
     "king": ()
 }
-
-# Animation sprites for each block/attack
-player1AttackAnimation1 = ["Files/Player1Attack1/Player1Attack1Image1.png", "Files/Player1Attack1/Player1Attack1Image2.png", "Files/Player1Attack1/Player1Attack1Image3.png", "Files/Player1Attack1/Player1Attack1Image4.png"]
-player1BlockAnimation1 = ["Files/Player1Block1/Player1Block1Image1.png", "Files/Player1Block1/Player1Block1Image2.png"]
-
-player2AttackAnimation1 = ["Files/Player2Attack1/Player2Attack1Image1.png", "Files/Player2Attack1/Player2Attack1Image2.png", "Files/Player2Attack1/Player2Attack1Image3.png", "Files/Player2Attack1/Player2Attack1Image4.png"]
-player2BlockAnimation1 = ["Files/Player2Block1/Player2Block1Image1.png", "Files/Player2Block1/Player2Block1Image2.png"]
 
 # main game loop
 playing = True
@@ -528,10 +559,10 @@ while playing:
                             boxer1 = boxing_state.Boxer(window, 100, 200, player1AttackAnimation1, player1BlockAnimation1, white_health_and_damage[selected_piece][1], white_health_and_damage[selected_piece][0], index_to_change=selected_piece)
                             boxer2 = boxing_state.Boxer(window, 500, 200, player2AttackAnimation1, player2BlockAnimation1, black_health_and_damage[black_piece_locations.index(click_cords)][1], black_health_and_damage[black_piece_locations.index(click_cords)][0])
 
-                            player1Attack1 = False
-                            player2Attack1 = False
-                            player1Block1 = False
-                            player2Block1 = False
+                            player1Attack = False
+                            player2Attack = False
+                            player1Block = False
+                            player2Block = False
 
                             taker = "White"
                             taker_wins = None
@@ -561,10 +592,10 @@ while playing:
                             boxer1 = boxing_state.Boxer(window, 100, 200, player1AttackAnimation1, player1BlockAnimation1, white_health_and_damage[white_piece_locations.index(click_cords)][1], white_health_and_damage[white_piece_locations.index(click_cords)][0])
                             boxer2 = boxing_state.Boxer(window, 500, 200, player2AttackAnimation1, player2BlockAnimation1, black_health_and_damage[selected_piece][1], black_health_and_damage[selected_piece][0], index_to_change=selected_piece)
 
-                            player1Attack1 = False
-                            player2Attack1 = False
-                            player1Block1 = False
-                            player2Block1 = False
+                            player1Attack = False
+                            player2Attack = False
+                            player1Block = False
+                            player2Block = False
 
                             taker = "Black"
                             taker_wins = None
@@ -587,44 +618,44 @@ while playing:
             if event.type == pygame.KEYDOWN:
                 time_now = pygame.time.get_ticks()
 
-                if event.key == pygame.K_w and not player1Block1 and time_now - player_1_last_attack > 1250:
+                if event.key == pygame.K_w and not player1Block and time_now - player_1_last_attack > 1250:
                     player_1_last_attack = pygame.time.get_ticks()
-                    player1Attack1 = True
-                if event.key == pygame.K_UP and not player2Block1 and time_now - player_2_last_attack > 1250:
+                    player1Attack = True
+                if event.key == pygame.K_UP and not player2Block and time_now - player_2_last_attack > 1250:
                     player_2_last_attack = pygame.time.get_ticks()
-                    player2Attack1 = True
+                    player2Attack = True
 
                 if event.key == pygame.K_a:
-                    player1Block1 = True
+                    player1Block = True
                 if event.key == pygame.K_LEFT:
-                    player2Block1 = True
+                    player2Block = True
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_a:
-                    player1Block1 = False
+                    player1Block = False
                     boxer1.reset_block_bool()
                 if event.key == pygame.K_LEFT:
-                    player2Block1 = False
+                    player2Block = False
                     boxer2.reset_block_bool()
 
         # Display atmosphere for game-state
-        boxing_ring = pygame.image.load("files/BoxingRing.png")
+        boxing_ring = pygame.image.load("Files/Z)Images/BoxingRing.png")
         boxing_ring = pygame.transform.scale(boxing_ring, (1100, 720))
         window.blit(boxing_ring, (0, 0))
 
         # Check and call functions for attacks and blocks or idle
-        if player1Attack1:
-            player1Attack1 = boxer1.attack(boxer2)
-        elif player1Block1:
-            player1Block1 = boxer1.defend()
-        if not player1Block1 and not player1Attack1:
+        if player1Attack:
+            player1Attack = boxer1.attack(boxer2)
+        elif player1Block:
+            player1Block = boxer1.defend()
+        if not player1Block and not player1Attack:
             boxer1.idle()
 
-        if player2Attack1:
-            player2Attack1 = boxer2.attack(boxer1)
-        elif player2Block1:
-            player2Block1 = boxer2.defend()
-        if not player2Block1 and not player2Attack1:
+        if player2Attack:
+            player2Attack = boxer2.attack(boxer1)
+        elif player2Block:
+            player2Block = boxer2.defend()
+        if not player2Block and not player2Attack:
             boxer2.idle()
 
         # Update and display health text
