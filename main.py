@@ -450,7 +450,7 @@ White_King_Attack = []
 White_King_Block = []
 
 White_Queen_Attack = ["Files/WhiteQueenAttack/WhiteQueenAttackImage1.png", "Files/WhiteQueenAttack/WhiteQueenAttackImage2.png", "Files/WhiteQueenAttack/WhiteQueenAttackImage3.png", "Files/WhiteQueenAttack/WhiteQueenAttackImage4.png"]
-White_Queen_Block = ["Files/Player1Block1/WhiteQueenAttackImage1.png", "Files/WhiteQueenBlock/WhiteQueenAttackImage2.png"]
+White_Queen_Block = ["Files/WhiteQueenBlock/WhiteQueenBlockImage1.png", "Files/WhiteQueenBlock/WhiteQueenBlockImage2.png"]
 
 White_Rook_Attack = []
 White_Rook_Block = []
@@ -469,7 +469,7 @@ Black_King_Attack = []
 Black_King_Block = []
 
 Black_Queen_Attack = ["Files/BlackQueenAttack/BlackQueenAttackImage1.png", "Files/BlackQueenAttack/BlackQueenAttackImage2.png", "Files/BlackQueenAttack/BlackQueenAttackImage3.png", "Files/BlackQueenAttack/BlackQueenAttackImage4.png"]
-Black_Queen_Block = ["Files/BlackQueenBlock/BlackQueenAttackImage1.png", "Files/BlackQueenBlock/BlackQueenAttackImage2.png"]
+Black_Queen_Block = ["Files/BlackQueenBlock/BlackQueenBlockImage1.png", "Files/BlackQueenBlock/BlackQueenBlockImage2.png"]
 
 Black_Rook_Attack = []
 Black_Rook_Block = []
@@ -483,24 +483,24 @@ Black_Knight_Block = []
 Black_Pawn_Attack = []
 Black_Pawn_Block = []
 
-# First value is attack1, second value is block1, third value is attack2, fourth value is block2
+# First value is attack, second value is block
 white_piece_animation = {
-    "pawn": (),
-    "bishop": (),
-    "knight": (),
-    "rook": (),
-    "queen": (),
-    "king": ()
+    "pawn": (White_Pawn_Attack, White_Pawn_Block),
+    "bishop": (White_Bishop_Attack, White_Bishop_Block),
+    "knight": (White_Knight_Attack, White_Knight_Block),
+    "rook": (White_Rook_Attack, White_Rook_Block),
+    "queen": (White_Queen_Attack, White_Queen_Block),
+    "king": (White_King_Attack, White_King_Block)
 }
 
 # First value is attack, second value is block
 black_piece_animation = {
-    "pawn": (),
-    "bishop": (),
-    "knight": (),
-    "rook": (),
-    "queen": (),
-    "king": ()
+    "pawn": (Black_Pawn_Attack, Black_Pawn_Block),
+    "bishop": (Black_Bishop_Attack, Black_Bishop_Block),
+    "knight": (Black_Knight_Attack, Black_Knight_Block),
+    "rook": (Black_Rook_Attack, Black_Rook_Block),
+    "queen": (Black_Queen_Attack, Black_Queen_Block),
+    "king": (Black_King_Attack, Black_King_Block)
 }
 
 # main game loop
@@ -556,8 +556,8 @@ while playing:
                             white_piece_name = white_piece_structure[selected_piece]
                             black_piece_name = black_piece_structure[black_piece_locations.index(click_cords)]
 
-                            boxer1 = boxing_state.Boxer(window, 100, 200, player1AttackAnimation1, player1BlockAnimation1, white_health_and_damage[selected_piece][1], white_health_and_damage[selected_piece][0], index_to_change=selected_piece)
-                            boxer2 = boxing_state.Boxer(window, 500, 200, player2AttackAnimation1, player2BlockAnimation1, black_health_and_damage[black_piece_locations.index(click_cords)][1], black_health_and_damage[black_piece_locations.index(click_cords)][0])
+                            boxer1 = boxing_state.Boxer(window, 100, 200, white_piece_animation["queen"][0], white_piece_animation["queen"][1], white_health_and_damage[selected_piece][1], white_health_and_damage[selected_piece][0], index_to_change=selected_piece)
+                            boxer2 = boxing_state.Boxer(window, 500, 200, black_piece_animation["queen"][0], black_piece_animation["queen"][1], black_health_and_damage[black_piece_locations.index(click_cords)][1], black_health_and_damage[black_piece_locations.index(click_cords)][0])
 
                             player1Attack = False
                             player2Attack = False
@@ -589,8 +589,8 @@ while playing:
                             black_piece_name = black_piece_structure[selected_piece]
                             white_piece_name = white_piece_structure[white_piece_locations.index(click_cords)]
 
-                            boxer1 = boxing_state.Boxer(window, 100, 200, player1AttackAnimation1, player1BlockAnimation1, white_health_and_damage[white_piece_locations.index(click_cords)][1], white_health_and_damage[white_piece_locations.index(click_cords)][0])
-                            boxer2 = boxing_state.Boxer(window, 500, 200, player2AttackAnimation1, player2BlockAnimation1, black_health_and_damage[selected_piece][1], black_health_and_damage[selected_piece][0], index_to_change=selected_piece)
+                            boxer1 = boxing_state.Boxer(window, 100, 200, white_piece_animation["queen"][0], white_piece_animation["queen"][1], white_health_and_damage[white_piece_locations.index(click_cords)][1], white_health_and_damage[white_piece_locations.index(click_cords)][0])
+                            boxer2 = boxing_state.Boxer(window, 500, 200, black_piece_animation["queen"][0], black_piece_animation["queen"][1], black_health_and_damage[selected_piece][1], black_health_and_damage[selected_piece][0], index_to_change=selected_piece)
 
                             player1Attack = False
                             player2Attack = False

@@ -5,14 +5,14 @@ import pygame
 # Main class to define boxer
 class Boxer:
     # Initialization that defines alot of variables, piece_taker checks if the boxer is taking the piece
-    def __init__(self, window, x, y, attack_animation, block_animation1, attack_amt, health_amt, index_to_change=None):
+    def __init__(self, window, x, y, attack_animation, block_animation, attack_amt, health_amt, index_to_change=None):
         self.window = window
         self.x = x
         self.y = y
         self.value = 0
         self.idle_anim = attack_animation[0]
         self.attack_anim = attack_animation
-        self.block_anim = block_animation1
+        self.block_anim = block_animation
 
         self.index_to_change = index_to_change
 
