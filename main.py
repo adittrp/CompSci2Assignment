@@ -455,8 +455,8 @@ White_Queen_Block = ["Files/WhiteQueenBlock/WhiteQueenBlockImage1.png", "Files/W
 White_Rook_Attack = ["Files/WhiteRookAttack/WhiteRookAttackImage1.png", "Files/WhiteRookAttack/WhiteRookAttackImage2.png", "Files/WhiteRookAttack/WhiteRookAttackImage3.png", "Files/WhiteRookAttack/WhiteRookAttackImage4.png"]
 White_Rook_Block = ["Files/WhiteRookBlock/WhiteRookBlockImage1.png", "Files/WhiteRookBlock/WhiteRookBlockImage2.png"]
 
-White_Bishop_Attack = []
-White_Bishop_Block = []
+White_Bishop_Attack = ["Files/WhiteBishopAttack/WhiteBishopAttackImage1.png", "Files/WhiteBishopAttack/WhiteBishopAttackImage2.png", "Files/WhiteBishopAttack/WhiteBishopAttackImage3.png", "Files/WhiteBishopAttack/WhiteBishopAttackImage4.png"]
+White_Bishop_Block = ["Files/WhiteBishopBlock/WhiteBishopBlockImage1.png", "Files/WhiteBishopBlock/WhiteBishopBlockImage2.png"]
 
 White_Knight_Attack = ["Files/WhiteKnightAttack/WhiteKnightAttackImage1.png", "Files/WhiteKnightAttack/WhiteKnightAttackImage2.png", "Files/WhiteKnightAttack/WhiteKnightAttackImage3.png", "Files/WhiteKnightAttack/WhiteKnightAttackImage4.png"]
 White_Knight_Block = ["Files/WhiteKnightBlock/WhiteKnightBlockImage1.png", "Files/WhiteKnightBlock/WhiteKnightBlockImage2.png"]
@@ -474,11 +474,11 @@ Black_Queen_Block = ["Files/BlackQueenBlock/BlackQueenBlockImage1.png", "Files/B
 Black_Rook_Attack = ["Files/BlackRookAttack/BlackRookAttackImage1.png", "Files/BlackRookAttack/BlackRookAttackImage2.png", "Files/BlackRookAttack/BlackRookAttackImage3.png", "Files/BlackRookAttack/BlackRookAttackImage4.png"]
 Black_Rook_Block = ["Files/BlackRookBlock/BlackRookBlockImage1.png", "Files/BlackRookBlock/BlackRookBlockImage2.png"]
 
-Black_Bishop_Attack = []
-Black_Bishop_Block = []
+Black_Bishop_Attack = ["Files/BlackBishopAttack/BlackBishopAttackImage1.png", "Files/BlackBishopAttack/BlackBishopAttackImage2.png", "Files/BlackBishopAttack/BlackBishopAttackImage3.png", "Files/BlackBishopAttack/BlackBishopAttackImage4.png"]
+Black_Bishop_Block = ["Files/BlackBishopBlock/BlackBishopBlockImage1.png", "Files/BlackBishopBlock/BlackBishopBlockImage2.png"]
 
 Black_Knight_Attack = ["Files/BlackKnightAttack/BlackKnightAttackImage1.png", "Files/BlackKnightAttack/BlackKnightAttackImage2.png", "Files/BlackKnightAttack/BlackKnightAttackImage3.png", "Files/BlackKnightAttack/BlackKnightAttackImage4.png"]
-Black_Knight_Block = []
+Black_Knight_Block = ["Files/BlackKnightBlock/BlackKnightBlockImage1.png", "Files/BlackKnightBlock/BlackKnightBlockImage2.png"]
 
 Black_Pawn_Attack = ["Files/BlackPawnAttack/BlackPawnAttackImage1.png", "Files/BlackPawnAttack/BlackPawnAttackImage2.png", "Files/BlackPawnAttack/BlackPawnAttackImage3.png", "Files/BlackPawnAttack/BlackPawnAttackImage4.png"]
 Black_Pawn_Block = ["Files/BlackPawnBlock/BlackPawnBlockImage1.png", "Files/BlackPawnBlock/BlackPawnBlockImage2.png"]
