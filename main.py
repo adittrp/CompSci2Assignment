@@ -466,7 +466,7 @@ White_Pawn_Block = ["Files/WhitePawnBlock/WhitePawnBlockImage1.png", "Files/Whit
 
 # Black Animations
 Black_King_Attack = ["Files/BlackKingAttack/BlackKingAttackImage1.png", "Files/BlackKingAttack/BlackKingAttackImage2.png", "Files/BlackKingAttack/BlackKingAttackImage3.png", "Files/BlackKingAttack/BlackKingAttackImage4.png"]
-Black_King_Block = []
+Black_King_Block = ["Files/BlackKingBlock/BlackKingBlockImage1.png", "Files/BlackKingBlock/BlackKingBlockImage2.png"]
 
 Black_Queen_Attack = ["Files/BlackQueenAttack/BlackQueenAttackImage1.png", "Files/BlackQueenAttack/BlackQueenAttackImage2.png", "Files/BlackQueenAttack/BlackQueenAttackImage3.png", "Files/BlackQueenAttack/BlackQueenAttackImage4.png"]
 Black_Queen_Block = ["Files/BlackQueenBlock/BlackQueenBlockImage1.png", "Files/BlackQueenBlock/BlackQueenBlockImage2.png"]
@@ -556,8 +556,8 @@ while playing:
                             white_piece_name = white_piece_structure[selected_piece]
                             black_piece_name = black_piece_structure[black_piece_locations.index(click_cords)]
 
-                            boxer1 = boxing_state.Boxer(window, 0, 200, white_piece_animation["knight"][0], white_piece_animation["knight"][1], white_health_and_damage[selected_piece][1], white_health_and_damage[selected_piece][0], index_to_change=selected_piece)
-                            boxer2 = boxing_state.Boxer(window, 600, 200, black_piece_animation["king"][0], black_piece_animation["rook"][1], black_health_and_damage[black_piece_locations.index(click_cords)][1], black_health_and_damage[black_piece_locations.index(click_cords)][0])
+                            boxer1 = boxing_state.Boxer(window, 0, 200, white_piece_animation[white_piece_name][0], white_piece_animation[white_piece_name][1], white_health_and_damage[selected_piece][1], white_health_and_damage[selected_piece][0], index_to_change=selected_piece)
+                            boxer2 = boxing_state.Boxer(window, 600, 200, black_piece_animation[black_piece_name][0], black_piece_animation[black_piece_name][1], black_health_and_damage[black_piece_locations.index(click_cords)][1], black_health_and_damage[black_piece_locations.index(click_cords)][0])
 
                             player1Attack = False
                             player2Attack = False
@@ -589,8 +589,8 @@ while playing:
                             black_piece_name = black_piece_structure[selected_piece]
                             white_piece_name = white_piece_structure[white_piece_locations.index(click_cords)]
 
-                            boxer1 = boxing_state.Boxer(window, 0, 200, white_piece_animation["queen"][0], white_piece_animation["queen"][1], white_health_and_damage[white_piece_locations.index(click_cords)][1], white_health_and_damage[white_piece_locations.index(click_cords)][0])
-                            boxer2 = boxing_state.Boxer(window, 600, 200, black_piece_animation["queen"][0], black_piece_animation["queen"][1], black_health_and_damage[selected_piece][1], black_health_and_damage[selected_piece][0], index_to_change=selected_piece)
+                            boxer1 = boxing_state.Boxer(window, 0, 200, white_piece_animation[white_piece_name][0], white_piece_animation[white_piece_name][1], white_health_and_damage[white_piece_locations.index(click_cords)][1], white_health_and_damage[white_piece_locations.index(click_cords)][0])
+                            boxer2 = boxing_state.Boxer(window, 600, 200, black_piece_animation[black_piece_name][0], black_piece_animation[black_piece_name][1], black_health_and_damage[selected_piece][1], black_health_and_damage[selected_piece][0], index_to_change=selected_piece)
 
                             player1Attack = False
                             player2Attack = False
@@ -618,10 +618,10 @@ while playing:
             if event.type == pygame.KEYDOWN:
                 time_now = pygame.time.get_ticks()
 
-                if event.key == pygame.K_w and not player1Block and time_now - player_1_last_attack > 1250:
+                if event.key == pygame.K_w and not player1Block and time_now - player_1_last_attack > 1000:
                     player_1_last_attack = pygame.time.get_ticks()
                     player1Attack = True
-                if event.key == pygame.K_UP and not player2Block and time_now - player_2_last_attack > 1250:
+                if event.key == pygame.K_UP and not player2Block and time_now - player_2_last_attack > 1000:
                     player_2_last_attack = pygame.time.get_ticks()
                     player2Attack = True
 
