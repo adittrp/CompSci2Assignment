@@ -402,6 +402,7 @@ def display_check():
                         pygame.draw.rect(window, "dark red", (black_piece_locations[king_index][0] * 80 + 40, black_piece_locations[king_index][1] * 80 + 40, 80, 80), 5)
 
 
+# Check if either side's king has been captured and return True/False
 def check_king_death():
     white_king_not_dead = False
     black_king_not_dead = False
@@ -548,14 +549,18 @@ while playing:
                         if current_turn == 0:
                             current_turn = 1
 
+                    # If a piece is selected and an available square is clicked, move the piece
                     if click_cords in possible_moves and selected_piece != 200:
                         original_selection = white_piece_locations[selected_piece]
                         white_piece_locations[selected_piece] = click_cords
+
+                        # If a piece is selected and attacks an opposing piece
                         if click_cords in black_piece_locations:
-                            # Move to boxing game-state after creating the 2 boxing classes
+                            # Use the click coordinates to find the names for each piece
                             white_piece_name = white_piece_structure[selected_piece]
                             black_piece_name = black_piece_structure[black_piece_locations.index(click_cords)]
 
+                            # Use the white and black pieces names to use the correct animations unique to each piece
                             boxer1 = boxing_state.Boxer(window, 0, 200, white_piece_animation[white_piece_name][0], white_piece_animation[white_piece_name][1], white_health_and_damage[selected_piece][1], white_health_and_damage[selected_piece][0], index_to_change=selected_piece)
                             boxer2 = boxing_state.Boxer(window, 600, 200, black_piece_animation[black_piece_name][0], black_piece_animation[black_piece_name][1], black_health_and_damage[black_piece_locations.index(click_cords)][1], black_health_and_damage[black_piece_locations.index(click_cords)][0])
 
@@ -564,10 +569,13 @@ while playing:
                             player1Block = False
                             player2Block = False
 
+                            # Move to boxing game-state after creating the 2 boxing classes
                             taker = "White"
                             taker_wins = None
                             piece_taken = True
                             break
+
+                        # Else, simply continue the game
                         black_options = check_possible_move_options(black_piece_structure, black_piece_locations, "black")
                         white_options = check_possible_move_options(white_piece_structure, white_piece_locations, "white")
                         current_turn = 2
@@ -581,14 +589,18 @@ while playing:
                         if current_turn == 2:
                             current_turn = 3
 
+                    # If a piece is selected and an available square is clicked, move the piece
                     if click_cords in possible_moves and selected_piece != 200:
                         original_selection = black_piece_locations[selected_piece]
                         black_piece_locations[selected_piece] = click_cords
+
+                        # If a piece is selected and attacks an opposing piece
                         if click_cords in white_piece_locations:
-                            # Move to boxing game-state after creating the 2 boxing classes
+                            # Use the click coordinates to find the names for each piece
                             black_piece_name = black_piece_structure[selected_piece]
                             white_piece_name = white_piece_structure[white_piece_locations.index(click_cords)]
 
+                            # Use the white and black pieces names to use the correct animations unique to each piece
                             boxer1 = boxing_state.Boxer(window, 0, 200, white_piece_animation[white_piece_name][0], white_piece_animation[white_piece_name][1], white_health_and_damage[white_piece_locations.index(click_cords)][1], white_health_and_damage[white_piece_locations.index(click_cords)][0])
                             boxer2 = boxing_state.Boxer(window, 600, 200, black_piece_animation[black_piece_name][0], black_piece_animation[black_piece_name][1], black_health_and_damage[selected_piece][1], black_health_and_damage[selected_piece][0], index_to_change=selected_piece)
 
@@ -597,10 +609,13 @@ while playing:
                             player1Block = False
                             player2Block = False
 
+                            # Move to boxing game-state after creating the 2 boxing classes
                             taker = "Black"
                             taker_wins = None
                             piece_taken = True
                             break
+
+                        # Else, simply continue the game
                         black_options = check_possible_move_options(black_piece_structure, black_piece_locations, "black")
                         white_options = check_possible_move_options(white_piece_structure, white_piece_locations, "white")
                         current_turn = 0
@@ -615,9 +630,12 @@ while playing:
                     saved_info_file.write("DNF, DNF\n")
                 playing = False
 
+            # If a key is pressed
             if event.type == pygame.KEYDOWN:
+                # Use a time variable to effectively create a cooldown
                 time_now = pygame.time.get_ticks()
 
+                # Check if an attack button was pressed, and check if the cooldown has completed yet
                 if event.key == pygame.K_w and not player1Block and time_now - player_1_last_attack > 1000:
                     player_1_last_attack = pygame.time.get_ticks()
                     player1Attack = True
@@ -625,12 +643,14 @@ while playing:
                     player_2_last_attack = pygame.time.get_ticks()
                     player2Attack = True
 
+                # Check if a block button was pressed
                 if event.key == pygame.K_a:
                     player1Block = True
                 if event.key == pygame.K_LEFT:
                     player2Block = True
 
             elif event.type == pygame.KEYUP:
+                # If a block button was let go, stop blocking
                 if event.key == pygame.K_a:
                     player1Block = False
                     boxer1.reset_block_bool()
@@ -672,6 +692,7 @@ while playing:
             text_rect = render.get_rect(center=(550, 25 + (text_to_render.index(text) * 35)))
             window.blit(render, text_rect)
 
+        # Check the player's health and if either has reached 0 or below
         boxer1_lose = boxer1.check_health()
         boxer2_lose = boxer2.check_health()
 
@@ -730,9 +751,12 @@ while playing:
                 taker_wins = None
                 piece_taken = False
 
+            # Call the check_king_death function to check if either king was captured
             white_king_alive, black_king_alive = check_king_death()
 
+            # If any king was captured, display an end view
             if not white_king_alive or not black_king_alive:
+                # Save Win/Lose based on the winner
                 if not black_king_alive:
                     with open("saved_info.txt", "a") as saved_info_file:
                         saved_info_file.write("Win, Lose\n")
@@ -740,6 +764,7 @@ while playing:
                     with open("saved_info.txt", "a") as saved_info_file:
                         saved_info_file.write("Lose, Win\n")
 
+                # While loop that keeps the player on the end screen
                 while not white_king_alive or not black_king_alive:
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
@@ -747,9 +772,10 @@ while playing:
                             black_king_alive = True
                             playing = False
 
+                        # If the user clicks space, reset the game
                         if event.type == pygame.KEYDOWN:
                             if event.key == pygame.K_SPACE:
-                                # Reset game
+                                # Reset game variables/lists
                                 white_piece_structure = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook",
                                                          "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"]
                                 white_health_and_damage = [[100, 10], [75, 15], [75, 15], [100, 20], [150, 10], [75, 15], [75, 15], [100, 10],
@@ -778,9 +804,10 @@ while playing:
 
                     window.fill("black")
 
-                    pygame.draw.rect(window, 'light gray', [175, 120, 800, 400], 240)
-                    pygame.draw.rect(window, 'gold', [175, 120, 800, 400], 5)
+                    pygame.draw.rect(window, 'light gray', [150, 110, 800, 400], 240)
+                    pygame.draw.rect(window, 'gold', [150, 110, 800, 400], 5)
 
+                    # Find the amount of Wins this game's winner has, and display it along with a win screen
                     with open("saved_info.txt", "r") as saved_info_file:
                         reader = saved_info_file.readlines()
                         player1_wins = 0
@@ -793,13 +820,14 @@ while playing:
                             elif line_split[1] == "Win\n":
                                 player2_wins += 1
 
+                        # Display text
                         if not black_king_alive:
                             texts = ["The Black King has been defeated! ", "Player 1 is the winner! ",
                                      "Player 1 now has " + str(player1_wins) + " wins! ",
                                      "Press Space to reset the game from ", "scratch or simply exit the game."]
                             for i in range(len(texts)):
                                 text = font.render(texts[i], True, 'White')
-                                text_rect = text.get_rect(center=(550, 250 + 50 * i))
+                                text_rect = text.get_rect(center=(550, 200 + 50 * i))
                                 window.blit(text, text_rect)
                         if not white_king_alive:
                             texts = ["The White King has been defeated! ", "Player 2 is the winner! ",
@@ -807,7 +835,7 @@ while playing:
                                      "Press Space to reset the game from ", "scratch or simply exit the game."]
                             for i in range(len(texts)):
                                 text = font.render(texts[i], True, 'White')
-                                text_rect = text.get_rect(center=(550, 250 + 50 * i))
+                                text_rect = text.get_rect(center=(550, 200 + 50 * i))
                                 window.blit(text, text_rect)
 
                     pygame.display.update()
