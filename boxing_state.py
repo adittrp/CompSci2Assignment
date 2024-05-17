@@ -6,20 +6,31 @@ import pygame
 class Boxer:
     # Initialization that defines alot of variables, piece_taker checks if the boxer is taking the piece
     def __init__(self, window, x, y, attack_animation, block_animation, attack_amt, health_amt, index_to_change=None):
+        # Window to change sprites within this module
         self.window = window
+
+        # Place fighters on correct side/position
         self.x = x
         self.y = y
+
+        # Value that is vital for playing the correct image in an animation group
         self.value = 0
+
+        # Different animations that will be called later on
         self.idle_anim = attack_animation[0]
         self.attack_anim = attack_animation
         self.block_anim = block_animation
 
+        # Saved index to permanently change health/damage once match is over
         self.index_to_change = index_to_change
 
+        # Makes sure the block animation does not repeat
         self.build_up_block = True
 
+        # Make sure the block animation stays fixed on the last image while the user is holding their button
         self.blocking = False
 
+        # Specific attack/health for piece
         self.attack_damage = attack_amt
         self.health = health_amt
 
